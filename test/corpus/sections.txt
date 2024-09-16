@@ -1,0 +1,32 @@
+========================|||
+Sections and subsections
+========================|||
+
+[some-section]
+    key = value
+    [[sub-section]]
+        [[[sub-sub-section]]]
+            another-key = 12
+[other-root]
+    just a key = with a value
+
+---|||
+
+(configuration_file
+  (root_section
+    name: (string)
+    (setting
+      key: (string)
+      value: (string))
+    (subsection_1
+      name: (string)
+      (subsection_2
+        name: (string)
+        (setting
+        key: (string)
+        value: (number)))))
+  (root_section
+    name: (string)
+    (setting
+      key: (string)
+      value: (string))))
