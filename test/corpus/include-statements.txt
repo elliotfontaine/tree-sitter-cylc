@@ -1,0 +1,28 @@
+==================|||
+Include Statements
+==================|||
+
+# Some header comment here. This is not an %include statement.
+%include "file.cylc"
+[some-section]
+    %include "file2.cylc" # tabulation is ignored -> Is root-leveled.
+[other-root] # a comment here ?!
+    just a key = with a value
+
+---|||
+
+(configuration_file
+  (comment)
+  (include_statement
+    path: (quoted_string))
+  (root_section
+    name: (nametag))
+  (include_statement
+    path: (quoted_string))
+  (comment)
+  (root_section
+    name: (nametag)
+    (comment)
+    (setting
+      key: (key)
+      value: (unquoted_string))))

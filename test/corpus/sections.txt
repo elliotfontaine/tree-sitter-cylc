@@ -14,19 +14,19 @@ Sections and subsections
 
 (configuration_file
   (root_section
-    name: (string)
+    name: (nametag)
     (setting
-      key: (string)
-      value: (string))
+      key: (key)
+      value: (unquoted_string))
     (subsection_1
-      name: (string)
+      name: (nametag)
       (subsection_2
-        name: (string)
+        name: (nametag)
         (setting
-        key: (string)
+        key: (key)
         value: (number)))))
   (root_section
-    name: (string)
+    name: (nametag)
     (setting
-      key: (string)
-      value: (string))))
+      key: (key)
+      value: (unquoted_string))))

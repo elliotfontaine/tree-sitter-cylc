@@ -10,22 +10,24 @@ Multi-lines Strings
     """
     another-key = """What is 'the ''point then?!"""
 [other-root]
-    just a key = """with a ""
-    value"""
+    just a key = '''
+        with a ''
+        value
+    '''
 
 ---|||
 
 (configuration_file
   (root_section
-    name: (string)
+    name: (nametag)
     (setting
-      key: (string)
+      key: (key)
       value: (multiline_string))
     (setting
-      key: (string)
+      key: (key)
       value: (multiline_string)))
   (root_section
-    name: (string)
+    name: (nametag)
     (setting
-      key: (string)
+      key: (key)
       value: (multiline_string))))

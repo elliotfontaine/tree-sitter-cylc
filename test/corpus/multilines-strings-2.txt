@@ -1,0 +1,31 @@
+=======================|||
+Multi-lines Strings (2)
+=======================|||
+
+[runtime]
+    [[convert_raw]]
+        script = """
+            thermorawfileparser
+                --format=${format} \
+                --input=${input} \
+                --output=${output} \
+                --metadata=${metadata}
+        """
+        [[[meta]]]
+            title = Convert Raw
+
+---|||
+
+(configuration_file
+    (root_section
+        name: (nametag)
+        (subsection_1
+            name: (nametag)
+            (setting
+                key: (key)
+                value: (multiline_string))
+            (subsection_2
+                name: (nametag)
+                (setting
+                    key: (key)
+                    value: (unquoted_string))))))

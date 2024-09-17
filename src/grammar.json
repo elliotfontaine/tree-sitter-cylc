@@ -4,8 +4,17 @@
     "configuration_file": {
       "type": "REPEAT",
       "content": {
-        "type": "SYMBOL",
-        "name": "root_section"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "root_section"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "include_statement"
+          }
+        ]
       }
     },
     "root_section": {
@@ -20,7 +29,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "string"
+            "name": "nametag"
           }
         },
         {
@@ -48,8 +57,17 @@
             {
               "type": "REPEAT",
               "content": {
-                "type": "SYMBOL",
-                "name": "subsection_1"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "subsection_1"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "graph_section"
+                  }
+                ]
               }
             },
             {
@@ -71,7 +89,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "string"
+            "name": "nametag"
           }
         },
         {
@@ -110,6 +128,38 @@
         }
       ]
     },
+    "graph_section": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "[["
+        },
+        {
+          "type": "STRING",
+          "value": "graph"
+        },
+        {
+          "type": "STRING",
+          "value": "]]"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "recurrence"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "subsection_2": {
       "type": "SEQ",
       "members": [
@@ -122,7 +172,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "string"
+            "name": "nametag"
           }
         },
         {
@@ -154,7 +204,7 @@
           "name": "key",
           "content": {
             "type": "SYMBOL",
-            "name": "string"
+            "name": "key"
           }
         },
         {
@@ -162,189 +212,414 @@
           "value": "="
         },
         {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "string"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "quoted_string"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "multiline_string"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "number"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "\n"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "quoted_string"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "multiline_string"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "number"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "boolean"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "unquoted_string"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
-    "quoted_string": {
-      "type": "CHOICE",
+    "recurrence": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\""
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[^\"\\\\]"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "\\\\."
-                  }
-                ]
-              }
-            },
-            {
-              "type": "STRING",
-              "value": "\""
-            }
-          ]
+          "type": "FIELD",
+          "name": "cyclepoints",
+          "content": {
+            "type": "SYMBOL",
+            "name": "cyclepoints"
+          }
         },
         {
-          "type": "SEQ",
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "'"
-            },
-            {
-              "type": "REPEAT",
+              "type": "FIELD",
+              "name": "graph_string",
               "content": {
                 "type": "CHOICE",
                 "members": [
                   {
-                    "type": "PATTERN",
-                    "value": "[^'\\\\]"
+                    "type": "STRING",
+                    "value": "\n"
                   },
                   {
-                    "type": "PATTERN",
-                    "value": "\\\\."
+                    "type": "SYMBOL",
+                    "name": "quoted_string"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "multiline_string"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "unquoted_string"
                   }
                 ]
               }
             },
             {
-              "type": "STRING",
-              "value": "'"
+              "type": "BLANK"
             }
           ]
         }
       ]
     },
     "multiline_string": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "\"\"\""
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[^\"\\\\]"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "\\\\."
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "\"\"[^\"]"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "STRING",
-              "value": "\"\"\""
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "'''"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[^'\\\\]"
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "\\\\."
-                  },
-                  {
-                    "type": "PATTERN",
-                    "value": "''[^']"
-                  }
-                ]
-              }
-            },
-            {
-              "type": "STRING",
-              "value": "'''"
-            }
-          ]
-        }
-      ]
-    },
-    "string": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z_-]+(\\s[a-zA-Z_-]+)*"
-    },
-    "number": {
-      "type": "PATTERN",
-      "value": "\\d+"
-    },
-    "comment": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
-        "value": -1,
+        "value": 8,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\"\"\""
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[^\"\\\\]"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "\\\\."
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "\"[^\"]"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "\"\"[^\"]"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "\\\\\\s*\\n"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "\"\"\""
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "'''"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[^'\\\\]"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "\\\\."
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "'[^']"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "''[^']"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "\\\\\\s*\\n"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "'''"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "quoted_string": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 4,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\""
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[^\"\\\\]"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "\\\\."
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "\""
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "'"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "PATTERN",
+                        "value": "[^'\\\\]"
+                      },
+                      {
+                        "type": "PATTERN",
+                        "value": "\\\\."
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "'"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "number": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "PATTERN",
+          "value": "\\d+"
+        }
+      }
+    },
+    "comment": {
+      "type": "PREC",
+      "value": 3,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "#"
+          },
+          {
+            "type": "PATTERN",
+            "value": ".*"
+          }
+        ]
+      }
+    },
+    "unquoted_string": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\"'#\\s\\n][^#\\n]+"
+      }
+    },
+    "nametag": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9\\-_+%@]+"
+    },
+    "key": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9_-]+(\\s[a-zA-Z0-9_-]+)*"
+    },
+    "cyclepoints": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9\\/\\^\\$\\-\\+\\!\\_\\(\\)]+"
+    },
+    "boolean": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 2,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "True"
+            },
+            {
+              "type": "STRING",
+              "value": "False"
+            }
+          ]
+        }
+      }
+    },
+    "include_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "%include"
+        },
+        {
+          "type": "FIELD",
+          "name": "path",
+          "content": {
+            "type": "SYMBOL",
+            "name": "quoted_string"
+          }
+        }
+      ]
+    },
+    "jinja2_expression": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 100,
         "content": {
           "type": "SEQ",
           "members": [
             {
               "type": "STRING",
-              "value": "#"
+              "value": "{{"
             },
             {
               "type": "PATTERN",
-              "value": ".*"
+              "value": "[^{}]*"
+            },
+            {
+              "type": "STRING",
+              "value": "}}"
+            }
+          ]
+        }
+      }
+    },
+    "jinja2_statement": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 100,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{%"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[^%]*"
+            },
+            {
+              "type": "STRING",
+              "value": "%}"
+            }
+          ]
+        }
+      }
+    },
+    "jinja2_comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 100,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{#"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[^#]*"
+            },
+            {
+              "type": "STRING",
+              "value": "#}"
             }
           ]
         }
@@ -353,12 +628,24 @@
   },
   "extras": [
     {
-      "type": "SYMBOL",
-      "name": "comment"
-    },
-    {
       "type": "PATTERN",
       "value": "\\s"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "jinja2_expression"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "jinja2_statement"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "jinja2_comment"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment"
     }
   ],
   "conflicts": [],

@@ -1,0 +1,59 @@
+=======================================|||
+Jinja2 (Statement, Expression, Comment)
+=======================================|||
+
+# {% stating something %}    is for Statements
+# {{ expressing something }} is for Expressions
+# {# commenting something #} is for Comments
+
+[scheduling]
+    [[xtriggers]]
+{% if cfg__input_strategy == 'internal' %}
+        catch_raw = catch_raw_internal('%(point)s', '%(workflow_run_dir)s')
+{% elif cfg__input_strategy == 'local' %}
+        catch_raw = catch_raw_local('%(point)s', '%(workflow_run_dir)s', {{ cfg__local_runs_dir }})
+{% endif %}
+    [[environment]]
+        INFLUXDB_{{ param }}_TEST = 1{{ id_fragment }}8
+        INFLUXDB_V2_URL = {{ cfg__influxdb_url }}
+        INFLUXDB_V2_ORG = "org-{{ cfg__influxdb_org }}"
+        INFLUXDB_V2_TOKEN = {{ cfg__influxdb_auth_token }}
+
+---|||
+
+(configuration_file
+  (comment
+    (jinja2_statement))
+  (comment
+    (jinja2_expression))
+  (comment
+    (jinja2_comment))
+  (root_section
+    name: (nametag)
+    (subsection_1
+      name: (nametag)
+    (jinja2_statement)
+      (setting
+        key: (key)
+        value: (unquoted_string))
+    (jinja2_statement)
+      (setting
+        key: (key)
+        value: (unquoted_string)
+        (jinja2_expression)))
+  (jinja2_statement)
+    (subsection_1
+      name: (nametag)
+      (setting
+        key: (key (jinja2_expression))
+        value: (number (jinja2_expression)))
+      (setting
+        key: (key)
+        (jinja2_expression))
+      (setting
+        key: (key)
+        value: (quoted_string)
+        (jinja2_expression))
+      (setting
+        key: (key)
+        (jinja2_expression)))))

@@ -1,0 +1,44 @@
+========|||
+Settings
+========|||
+
+[runtime]
+    end = 100
+    script = print('Hello, World!')
+    script_file = {{ script_file }}
+    script_file = {{ script_file }}.txt
+    start = 0
+    is_verbose = True
+    void =
+    veritas = False #comment
+
+---|||
+
+(configuration_file
+  (root_section
+    name: (nametag)
+    (setting
+      key: (key)
+      value: (number))
+    (setting
+      key: (key)
+      value: (unquoted_string))
+    (setting
+      key: (key)
+      (jinja2_expression))
+    (setting
+      key: (key)
+      (jinja2_expression)
+      value: (unquoted_string))
+    (setting
+      key: (key)
+      value: (number))
+    (setting
+      key: (key)
+      value: (boolean))
+    (setting
+      key: (key))
+    (setting
+      key: (key)
+      value: (boolean)))
+    (comment))

@@ -3,7 +3,7 @@ Quoted Strings
 ==============|||
 
 [some-section]
-    key = "String is quoted."
+    key="String is quoted."
     another-key = "This one \"too. #not a comment" # And real comment
 [other-root]
     just a key = "Quote with 'single quotes' inside"
@@ -12,16 +12,16 @@ Quoted Strings
 
 (configuration_file
   (root_section
-    name: (string)
+    name: (nametag)
     (setting
-      key: (string)
+      key: (key)
       value: (quoted_string))
     (setting
-      key: (string)
+      key: (key)
       value: (quoted_string)))
   (comment)
   (root_section
-    name: (string)
+    name: (nametag)
     (setting
-      key: (string)
+      key: (key)
       value: (quoted_string))))

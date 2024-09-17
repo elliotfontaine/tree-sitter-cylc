@@ -13,14 +13,14 @@ Comments
 (configuration_file
   (comment)
   (root_section
-    name: (string)
+    name: (nametag)
     (setting
-      key: (string)
-      value: (string)))
+      key: (key)
+      value: (unquoted_string)))
   (root_section
-    name: (string)
+    name: (nametag)
     (comment)
     (setting
-      key: (string)
-      value: (string)))
+      key: (key)
+      value: (unquoted_string)))
   (comment))

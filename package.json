@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-cylc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Cylc grammar for tree-sitter.",
   "main": "index.js",
   "types": "bindings/node",
@@ -47,12 +47,18 @@
     }
   },
   "devDependencies": {
-    "prebuildify": "^6.0.1"
+    "prebuildify": "^6.0.1",
+    "tree-sitter-cli": "^0.23.0"
   },
   "tree-sitter": [
     {
       "scope": "source.cylc",
-      "injection-regex": "^cylc$"
+      "injection-regex": "^cylc$",
+      "file-types": [
+        "cylc",
+        "rc"
+      ],
+      "highlights": "queries/highlights.scm"
     }
   ]
 }

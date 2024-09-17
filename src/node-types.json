@@ -1,5 +1,10 @@
 [
   {
+    "type": "comment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "configuration_file",
     "named": true,
     "fields": {},
@@ -8,6 +13,10 @@
       "required": false,
       "types": [
         {
+          "type": "include_statement",
+          "named": true
+        },
+        {
           "type": "root_section",
           "named": true
         }
@@ -15,14 +24,73 @@
     }
   },
   {
-    "type": "multiline_string",
+    "type": "graph_section",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "recurrence",
+          "named": true
+        }
+      ]
+    }
   },
   {
-    "type": "quoted_string",
+    "type": "include_statement",
     "named": true,
-    "fields": {}
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "quoted_string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "recurrence",
+    "named": true,
+    "fields": {
+      "cyclepoints": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "cyclepoints",
+            "named": true
+          }
+        ]
+      },
+      "graph_string": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "\n",
+            "named": false
+          },
+          {
+            "type": "multiline_string",
+            "named": true
+          },
+          {
+            "type": "quoted_string",
+            "named": true
+          },
+          {
+            "type": "unquoted_string",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "root_section",
@@ -33,7 +101,7 @@
         "required": true,
         "types": [
           {
-            "type": "string",
+            "type": "nametag",
             "named": true
           }
         ]
@@ -43,6 +111,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "graph_section",
+          "named": true
+        },
         {
           "type": "setting",
           "named": true
@@ -63,15 +135,23 @@
         "required": true,
         "types": [
           {
-            "type": "string",
+            "type": "key",
             "named": true
           }
         ]
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
+          {
+            "type": "\n",
+            "named": false
+          },
+          {
+            "type": "boolean",
+            "named": true
+          },
           {
             "type": "multiline_string",
             "named": true
@@ -85,7 +165,7 @@
             "named": true
           },
           {
-            "type": "string",
+            "type": "unquoted_string",
             "named": true
           }
         ]
@@ -101,7 +181,7 @@
         "required": true,
         "types": [
           {
-            "type": "string",
+            "type": "nametag",
             "named": true
           }
         ]
@@ -131,7 +211,7 @@
         "required": true,
         "types": [
           {
-            "type": "string",
+            "type": "nametag",
             "named": true
           }
         ]
@@ -149,19 +229,20 @@
     }
   },
   {
-    "type": "\"",
+    "type": "unquoted_string",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "\n",
     "named": false
   },
   {
-    "type": "\"\"\"",
+    "type": "#",
     "named": false
   },
   {
-    "type": "'",
-    "named": false
-  },
-  {
-    "type": "'''",
+    "type": "%include",
     "named": false
   },
   {
@@ -193,7 +274,39 @@
     "named": false
   },
   {
-    "type": "comment",
+    "type": "boolean",
+    "named": true
+  },
+  {
+    "type": "cyclepoints",
+    "named": true
+  },
+  {
+    "type": "graph",
+    "named": false
+  },
+  {
+    "type": "jinja2_comment",
+    "named": true
+  },
+  {
+    "type": "jinja2_expression",
+    "named": true
+  },
+  {
+    "type": "jinja2_statement",
+    "named": true
+  },
+  {
+    "type": "key",
+    "named": true
+  },
+  {
+    "type": "multiline_string",
+    "named": true
+  },
+  {
+    "type": "nametag",
     "named": true
   },
   {
@@ -201,7 +314,7 @@
     "named": true
   },
   {
-    "type": "string",
+    "type": "quoted_string",
     "named": true
   }
 ]
