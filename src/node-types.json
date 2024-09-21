@@ -1,10 +1,5 @@
 [
   {
-    "type": "comment",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "configuration_file",
     "named": true,
     "fields": {},
@@ -24,15 +19,58 @@
     }
   },
   {
+    "type": "datetime",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "graph_section",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "nametag",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
           "type": "recurrence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "graph_task",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "intercycle_annotation",
+          "named": true
+        },
+        {
+          "type": "nametag",
+          "named": true
+        },
+        {
+          "type": "task_output",
+          "named": true
+        },
+        {
+          "type": "task_parameter",
           "named": true
         }
       ]
@@ -55,6 +93,72 @@
     }
   },
   {
+    "type": "intercycle_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "cyclepoints",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "multiline_graphstring",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "multiline_string_close",
+          "named": true
+        },
+        {
+          "type": "multiline_string_open",
+          "named": true
+        },
+        {
+          "type": "unquoted_graphstring",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "multiline_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "multiline_string_close",
+          "named": true
+        },
+        {
+          "type": "multiline_string_open",
+          "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "number",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "recurrence",
     "named": true,
     "fields": {
@@ -70,22 +174,14 @@
       },
       "graph_string": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
-            "type": "\n",
-            "named": false
-          },
-          {
-            "type": "multiline_string",
+            "type": "multiline_graphstring",
             "named": true
           },
           {
-            "type": "quoted_string",
-            "named": true
-          },
-          {
-            "type": "unquoted_string",
+            "type": "unquoted_graphstring",
             "named": true
           }
         ]
@@ -98,7 +194,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "nametag",
@@ -145,11 +241,11 @@
         "required": false,
         "types": [
           {
-            "type": "\n",
-            "named": false
+            "type": "boolean",
+            "named": true
           },
           {
-            "type": "boolean",
+            "type": "datetime",
             "named": true
           },
           {
@@ -173,12 +269,35 @@
     }
   },
   {
+    "type": "string_content",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "jinja2_comment",
+          "named": true
+        },
+        {
+          "type": "jinja2_expression",
+          "named": true
+        },
+        {
+          "type": "jinja2_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "subsection_1",
     "named": true,
     "fields": {
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "nametag",
@@ -198,6 +317,10 @@
         {
           "type": "subsection_2",
           "named": true
+        },
+        {
+          "type": "task_parameter",
+          "named": true
         }
       ]
     }
@@ -208,7 +331,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "nametag",
@@ -229,24 +352,95 @@
     }
   },
   {
+    "type": "task_output",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nametag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "task_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "nametag",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unquoted_graphstring",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "graph_arrow",
+          "named": true
+        },
+        {
+          "type": "graph_logical",
+          "named": true
+        },
+        {
+          "type": "graph_task",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "unquoted_string",
     "named": true,
-    "fields": {}
-  },
-  {
-    "type": "\n",
-    "named": false
-  },
-  {
-    "type": "#",
-    "named": false
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "%include",
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "?",
     "named": false
   },
   {
@@ -278,12 +472,20 @@
     "named": true
   },
   {
+    "type": "comment",
+    "named": true
+  },
+  {
     "type": "cyclepoints",
     "named": true
   },
   {
-    "type": "graph",
-    "named": false
+    "type": "graph_arrow",
+    "named": true
+  },
+  {
+    "type": "graph_logical",
+    "named": true
   },
   {
     "type": "jinja2_comment",
@@ -302,15 +504,15 @@
     "named": true
   },
   {
-    "type": "multiline_string",
+    "type": "multiline_string_close",
+    "named": true
+  },
+  {
+    "type": "multiline_string_open",
     "named": true
   },
   {
     "type": "nametag",
-    "named": true
-  },
-  {
-    "type": "number",
     "named": true
   },
   {
