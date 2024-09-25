@@ -1,0 +1,22 @@
+name: Format (check only)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          node-version: latest
+      - name: Install modules
+        run: npm ci
+      - name: Run Prettier (check only)
+        run: npm run check-format
