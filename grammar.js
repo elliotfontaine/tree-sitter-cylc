@@ -33,10 +33,15 @@ module.exports = grammar({
   rules: {
     // ----------------------------- Start Symbol -----------------------------
     configuration_file: ($) =>
-      repeat(choice($.root_section, $.include_statement)),
+      seq(
+        optional($.jinja2_shebang),
+        repeat(choice($.root_section, $.include_statement))
+      ),
 
     // --------------------------- Terminal symbols ---------------------------
     // Made up of literals (RegExp and string)
+
+    jinja2_shebang: (_) => "#!Jinja2",
 
     jinja2_expression: (_) =>
       token(prec(PREC.jinja2, seq("{{", /[^{}]*/, "}}"))),
