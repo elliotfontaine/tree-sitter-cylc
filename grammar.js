@@ -35,7 +35,7 @@ module.exports = grammar({
     configuration_file: ($) =>
       seq(
         optional($.jinja2_shebang),
-        repeat(choice($.root_section, $.include_statement))
+        repeat(choice($.root_section, $.include_statement)),
       ),
 
     // --------------------------- Terminal symbols ---------------------------
@@ -79,7 +79,7 @@ module.exports = grammar({
                 // with separators
                 field(
                   "date",
-                  /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|30|31)/
+                  /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|30|31)/,
                 ),
                 "T",
                 optional(
@@ -89,8 +89,8 @@ module.exports = grammar({
                       choice(
                         /[0-9]{2}:[0-9]{2}:[0-9]{2}/,
                         /[0-9]{2}:[0-9]{2}/,
-                        /[0-9]{2}/
-                      )
+                        /[0-9]{2}/,
+                      ),
                     ),
                     optional(
                       // when time is present, optional timezone
@@ -99,19 +99,19 @@ module.exports = grammar({
                         seq(
                           choice("+", "-"),
                           token.immediate(
-                            choice(/[0-9]{2}:[0-9]{2}/, /[0-9]{2}/)
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
+                            choice(/[0-9]{2}:[0-9]{2}/, /[0-9]{2}/),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
               seq(
                 // without separators
                 field(
                   "date",
-                  /[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|30|31)/
+                  /[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|30|31)/,
                 ),
                 "T",
                 optional(
@@ -123,17 +123,17 @@ module.exports = grammar({
                         seq(
                           choice("+", "-"),
                           token.immediate(
-                            choice(/[0-9]{2}[0-9]{2}/, /[0-9]{2}/)
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
-        )
+                            choice(/[0-9]{2}[0-9]{2}/, /[0-9]{2}/),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
 
     // ------------------------- Non-Terminal Symbols -------------------------
@@ -151,13 +151,13 @@ module.exports = grammar({
         optional(
           choice(
             field("name", $.nametag),
-            field("name", alias("task parameters", $.nametag))
-          )
+            field("name", alias("task parameters", $.nametag)),
+          ),
         ),
         "]",
         $._line_return,
         optional(repeat($.setting)),
-        optional(repeat(choice($.subsection_1, $.graph_section)))
+        optional(repeat(choice($.subsection_1, $.graph_section))),
       ),
 
     subsection_1: ($) =>
@@ -168,7 +168,7 @@ module.exports = grammar({
         "]]",
         $._line_return,
         optional(repeat($.setting)),
-        optional(repeat($.subsection_2))
+        optional(repeat($.subsection_2)),
       ),
 
     graph_section: ($) =>
@@ -177,7 +177,7 @@ module.exports = grammar({
         field("name", alias("graph", $.nametag)),
         "]]",
         $._line_return,
-        optional(repeat($.recurrence))
+        optional(repeat($.recurrence)),
       ),
 
     subsection_2: ($) =>
@@ -186,7 +186,7 @@ module.exports = grammar({
         optional(field("name", $.nametag)),
         "]]]",
         $._line_return,
-        optional(repeat($.setting))
+        optional(repeat($.setting)),
       ),
 
     setting: ($) =>
@@ -204,13 +204,13 @@ module.exports = grammar({
                   $.datetime,
                   $.number,
                   $.boolean,
-                  $.unquoted_string
-                )
-              )
-            )
-          )
+                  $.unquoted_string,
+                ),
+              ),
+            ),
+          ),
         ),
-        $._line_return
+        $._line_return,
       ),
 
     recurrence: ($) =>
@@ -222,15 +222,15 @@ module.exports = grammar({
           choice(
             //"\n", // Empty value
             $.multiline_graphstring,
-            $.unquoted_graphstring
-          )
+            $.unquoted_graphstring,
+          ),
         ),
-        $._line_return
+        $._line_return,
       ),
 
     unquoted_graphstring: ($) =>
       prec.left(
-        seq(repeat1(choice($.graph_logical, $.graph_task, $.graph_arrow)))
+        seq(repeat1(choice($.graph_logical, $.graph_task, $.graph_arrow))),
       ),
 
     multiline_graphstring: ($) =>
@@ -238,13 +238,13 @@ module.exports = grammar({
         seq(
           alias('"""', $.multiline_string_open),
           repeat($.unquoted_graphstring),
-          alias('"""', $.multiline_string_close)
+          alias('"""', $.multiline_string_close),
         ),
         seq(
           alias("'''", $.multiline_string_open),
           repeat($.unquoted_graphstring),
-          alias("'''", $.multiline_string_close)
-        )
+          alias("'''", $.multiline_string_close),
+        ),
       ),
 
     graph_task: ($) =>
@@ -252,7 +252,7 @@ module.exports = grammar({
         $.nametag,
         optional($.task_parameter),
         optional($.intercycle_annotation),
-        optional($.task_output)
+        optional($.task_output),
       ),
 
     task_parameter: ($) =>
@@ -277,24 +277,24 @@ module.exports = grammar({
                 /"[^"]/, // Allow a single quote, not followed by another quote
                 /""[^"]/, // Allow one or two quotes inside the string
                 /\\\s*\n/, // Allow backslashes followed by optional spaces and a newline (for line continuation)
-                $._jinja2
-              )
+                $._jinja2,
+              ),
             ),
-            $.string_content
+            $.string_content,
           ),
-          alias('"""', $.multiline_string_close)
+          alias('"""', $.multiline_string_close),
         ),
         // Triple single quotes
         seq(
           alias("'''", $.multiline_string_open),
           alias(
             token(
-              repeat(choice(/[^'\\]/, /\\./, /'[^']/, /''[^']/, /\\\s*\n/))
+              repeat(choice(/[^'\\]/, /\\./, /'[^']/, /''[^']/, /\\\s*\n/)),
             ),
-            $.string_content
+            $.string_content,
           ),
-          alias("'''", $.multiline_string_close)
-        )
+          alias("'''", $.multiline_string_close),
+        ),
       ),
 
     quoted_string: ($) =>
@@ -308,23 +308,23 @@ module.exports = grammar({
                 choice(
                   /[^"\\\n]/, // Match any character except double quotes, backslashes, or newlines
                   /\\./, // Match escaped characters (e.g., \" or \')
-                  /\\\n\s*/ // Match a backslash followed by a newline and optional spaces (line continuation)
-                )
+                  /\\\n\s*/, // Match a backslash followed by a newline and optional spaces (line continuation)
+                ),
               ),
-              $.string_content
+              $.string_content,
             ),
-            '"'
+            '"',
           ),
           // Match single quotes
           seq(
             "'",
             alias(
               repeat(choice(/[^'\\\n]/, /\\./, /\\\n\s*/)),
-              $.string_content
+              $.string_content,
             ),
-            "'"
-          )
-        )
+            "'",
+          ),
+        ),
       ),
 
     unquoted_string: ($) =>
@@ -336,13 +336,13 @@ module.exports = grammar({
             repeat(
               choice(
                 token.immediate(/[^"'#\n][^{#\n]*/),
-                $._jinja2
+                $._jinja2,
                 //repeat(choice(token.immediate(/[^"'#\s\n][^#\n]*/), $._jinja2))
-              )
-            )
+              ),
+            ),
           ),
-          $.string_content
-        )
+          $.string_content,
+        ),
       ),
 
     // TODO: COMPLETE ISO 8601 datetime

@@ -1,5 +1,4 @@
-tree-sitter-cylc
-================
+# tree-sitter-cylc
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/cylc/cylc-admin/master/docs/img/cylc-logo.svg" width="150" alt="Cylc Logo">
