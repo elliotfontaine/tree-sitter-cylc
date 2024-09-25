@@ -50,7 +50,7 @@ module.exports = grammar({
 
     jinja2_comment: (_) => token(prec(PREC.jinja2, seq("{#", /[^#]*/, "#}"))),
 
-    cyclepoints: (_) => token(repeat1(choice(/[A-Z0-9\/^$+\-,()!]+/, "min"))),
+    cyclepoints: (_) => token(repeat1(choice(/[A-Z0-9/^$+\-,()!]+/, "min"))),
 
     graph_logical: (_) => token(choice("&", "|")),
 
