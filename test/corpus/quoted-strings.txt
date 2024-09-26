@@ -1,6 +1,6 @@
-==============|||
+==============
 Quoted Strings
-==============|||
+==============
 
 [some-section]
     key="String is quoted."
@@ -8,20 +8,23 @@ Quoted Strings
 [other-root]
     just a key = "Quote with 'single quotes' inside"
 
----|||
+---
 
-(configuration_file
-  (root_section
+(workflow_configuration
+  (top_section
     name: (nametag)
     (setting
       key: (key)
+      operator: (assignment_operator)
       value: (quoted_string))
     (setting
       key: (key)
-      value: (quoted_string)))
-  (comment)
-  (root_section
+      operator: (assignment_operator)
+      value: (quoted_string)
+      (comment)))
+  (top_section
     name: (nametag)
     (setting
       key: (key)
+      operator: (assignment_operator)
       value: (quoted_string))))

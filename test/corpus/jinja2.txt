@@ -1,6 +1,7 @@
-=======================================|||
+=======================================
 Jinja2 (Statement, Expression, Comment)
-=======================================|||
+:skip
+=======================================
 
 # {% stating something %}    is for Statements
 # {{ expressing something }} is for Expressions
@@ -16,37 +17,39 @@ Jinja2 (Statement, Expression, Comment)
     [[environment]]
         INFLUXDB_{{ param }}_TEST = 1{{ id_fragment }}8
         INFLUXDB_V2_URL = {{ cfg__influxdb_url }}
-        INFLUXDB_V2_ORG = "org-{{ cfg__influxdb_org }}"
+        INFLUXDB_V2_ORG = "org-{{ cfg__influxdb_org }}-2"
         INFLUXDB_V2_TOKEN = {{ cfg__influxdb_auth_token }}
 
----|||
+---
 
-(configuration_file
+(workflow_configuration
   (comment
     (jinja2_statement))
   (comment
     (jinja2_expression))
   (comment
     (jinja2_comment))
-  (root_section
+  (top_section
     name: (nametag)
-    (subsection_1
+    (sub_section_1
       name: (nametag)
-    (jinja2_statement)
+      (jinja2_statement)
       (setting
         key: (key)
         value: (unquoted_string))
-    (jinja2_statement)
+      (jinja2_statement)
       (setting
         key: (key)
         value: (unquoted_string)
         (jinja2_expression)))
-  (jinja2_statement)
-    (subsection_1
+    (jinja2_statement)
+    (sub_section_1
       name: (nametag)
       (setting
-        key: (key (jinja2_expression))
-        value: (number (jinja2_expression)))
+        key: (key
+          (jinja2_expression))
+        value: (integer
+          (jinja2_expression)))
       (setting
         key: (key)
         (jinja2_expression))

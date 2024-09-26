@@ -1,26 +1,32 @@
-========|||
+========
 Comments
-========|||
+========
 
 # Header comment
 [some-section]
     key = value
 [other-root] # a comment here ?!
-    just a key = with a value #and a comment without space
+    just a key = with a value # and a comment without space
 
----|||
+---
 
-(configuration_file
+(workflow_configuration
   (comment)
-  (root_section
+  (top_section
     name: (nametag)
     (setting
       key: (key)
-      value: (unquoted_string)))
-  (root_section
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)
+        (string_content))))
+  (top_section
     name: (nametag)
     (comment)
     (setting
       key: (key)
-      value: (unquoted_string)))
-  (comment))
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)
+        (string_content))
+      (comment))))

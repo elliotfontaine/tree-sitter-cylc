@@ -1,6 +1,6 @@
-========================|||
+========================
 Sections and subsections
-========================|||
+========================
 
 [some-section]
     key = value
@@ -10,23 +10,30 @@ Sections and subsections
 [other-root]
     just a key = with a value
 
----|||
+---
 
-(configuration_file
-  (root_section
+(workflow_configuration
+  (top_section
     name: (nametag)
     (setting
       key: (key)
-      value: (unquoted_string))
-    (subsection_1
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)
+        (string_content)))
+    (sub_section_1
       name: (nametag)
-      (subsection_2
+      (sub_section_2
         name: (nametag)
         (setting
-        key: (key)
-        value: (number)))))
-  (root_section
+          key: (key)
+          operator: (assignment_operator)
+          value: (integer)))))
+  (top_section
     name: (nametag)
     (setting
       key: (key)
-      value: (unquoted_string))))
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)
+        (string_content)))))

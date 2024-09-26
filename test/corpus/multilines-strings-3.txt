@@ -1,6 +1,6 @@
-=======================|||
+=======================
 Multi-lines Strings (3)
-=======================|||
+=======================
 
 [runtime]
     [[root]]
@@ -14,18 +14,23 @@ Multi-lines Strings (3)
         [[[environment]]]
             USER_CONFIG_DIR = ${CYLC_WORKFLOW_RUN_DIR}/config
 
----|||
+---
 
-(configuration_file
-    (root_section
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (sub_section_1
+      name: (nametag)
+      (setting
+        key: (key)
+        operator: (assignment_operator)
+        value: (multiline_string
+          (string_content)))
+      (sub_section_2
         name: (nametag)
-        (subsection_1
-            name: (nametag)
-            (setting
-                key: (key)
-                value: (multiline_string))
-            (subsection_2
-                name: (nametag)
-                (setting
-                    key: (key)
-                    value: (unquoted_string))))))
+        (setting
+          key: (key)
+          operator: (assignment_operator)
+          value: (unquoted_string
+            (string_content)
+            (string_content)))))))

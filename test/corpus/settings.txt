@@ -1,6 +1,6 @@
-========|||
+========
 Settings
-========|||
+========
 
 [runtime]
     end = 100
@@ -12,33 +12,45 @@ Settings
     void =
     veritas = False #comment
 
----|||
+---
 
-(configuration_file
-  (root_section
+(workflow_configuration
+  (top_section
     name: (nametag)
     (setting
       key: (key)
-      value: (number))
+      operator: (assignment_operator)
+      value: (integer))
     (setting
       key: (key)
-      value: (unquoted_string))
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)
+        (string_content)))
     (setting
       key: (key)
+      operator: (assignment_operator)
       (jinja2_expression))
     (setting
       key: (key)
+      operator: (assignment_operator)
       (jinja2_expression)
-      value: (unquoted_string))
+      value: (unquoted_string
+        (string_content)
+        (string_content)))
     (setting
       key: (key)
-      value: (number))
+      operator: (assignment_operator)
+      value: (integer))
     (setting
       key: (key)
+      operator: (assignment_operator)
       value: (boolean))
     (setting
-      key: (key))
+      key: (key)
+      operator: (assignment_operator))
     (setting
       key: (key)
-      value: (boolean)))
-    (comment))
+      operator: (assignment_operator)
+      value: (boolean)
+      (comment))))

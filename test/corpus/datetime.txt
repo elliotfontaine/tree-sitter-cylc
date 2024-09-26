@@ -1,6 +1,6 @@
-=================|||
+=================
 ISO 8601 Datetime
-=================|||
+=================
 
 [section]
 datetime_extended1 = 2024-09-19T21:27:12Z
@@ -13,6 +13,44 @@ datetime_extended7 = 2024-09-19T21:27+02:00
 datetime_basic1 = 20240919T212712Z
 datetime_basic2 = 20240919T2127
 
----|||
+---
 
-TODO
+(workflow_configuration
+  (top_section
+    (nametag)
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))
+    (setting
+      (key)
+      (assignment_operator)
+      (datetime))))

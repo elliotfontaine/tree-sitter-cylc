@@ -1,0 +1,147 @@
+================
+Satellite short
+================
+
+#!Jinja2
+
+[meta]
+    title=Real time satellite data processing demo, variant 3 of 3
+
+{% set N_DATASETS = 5 %}
+
+[scheduling]
+    cycling mode = "integer"
+    initial cycle point = 12
+    final cycle point ={{N_DATASETS}}
+    [[special_tasks]]
+        external-trigger = get_data("new dataset ready for processing. Total datasets: {{N_DATASETS}} ")
+    [[graph]]
+        R1 = prep => satsim & get_data # first cycle
+        P1 = """
+            get_data => proc1 => proc2 => products # Processing chain for each dataset
+            get_data[-P1] => get_data # As one dataset is retrieved, start waiting on another.
+        """
+        R1//{{N_DATASETS}} = products => collate # last cycle
+
+[runtime]
+    [[prep]]
+        script = """
+            COUNT=0
+            while true; do
+        """
+        [[[meta]]]
+            title = clean the workflow output directories
+
+---
+
+(workflow_configuration
+  (jinja2_shebang)
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)
+        (string_content
+          (jinja2_statement)))))
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (quoted_string))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (integer))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      (jinja2_expression))
+    (sub_section_1
+      name: (nametag)
+      (setting
+        key: (key)
+        operator: (assignment_operator)
+        value: (unquoted_string
+          (string_content)
+          (string_content
+            (jinja2_expression)))))
+    (graph_section
+      name: (nametag)
+      (graph_setting
+        key: (recurrence)
+        operator: (assignment_operator)
+        value: (unquoted_graph_string
+          (graph_task
+            (nametag))
+          (graph_arrow)
+          (graph_task
+            (nametag))
+          (graph_logical)
+          (graph_task
+            (nametag)))
+        (comment))
+      (graph_setting
+        key: (recurrence)
+        operator: (assignment_operator)
+        value: (multiline_graph_string
+          (unquoted_graph_string
+            (graph_task
+              (nametag)))
+          (unquoted_graph_string
+            (graph_arrow))
+          (unquoted_graph_string
+            (graph_task
+              (nametag)))
+          (unquoted_graph_string
+            (graph_arrow))
+          (unquoted_graph_string
+            (graph_task
+              (nametag)))
+          (unquoted_graph_string
+            (graph_arrow))
+          (unquoted_graph_string
+            (graph_task
+              (nametag)))
+          (comment)
+          (unquoted_graph_string
+            (graph_task
+              (nametag)
+              (intercycle_annotation
+                (recurrence))))
+          (unquoted_graph_string
+            (graph_arrow))
+          (unquoted_graph_string
+            (graph_task
+              (nametag)))
+          (comment)))
+      (graph_setting
+        key: (recurrence)
+        (jinja2_expression)
+        operator: (assignment_operator)
+        value: (unquoted_graph_string
+          (graph_task
+            (nametag))
+          (graph_arrow)
+          (graph_task
+            (nametag)))
+        (comment))))
+  (top_section
+    name: (nametag)
+    (sub_section_1
+      name: (nametag)
+      (setting
+        key: (key)
+        operator: (assignment_operator)
+        value: (multiline_string
+          (string_content)))
+      (sub_section_2
+        name: (nametag)
+        (setting
+          key: (key)
+          operator: (assignment_operator)
+          value: (unquoted_string
+            (string_content)
+            (string_content)))))))

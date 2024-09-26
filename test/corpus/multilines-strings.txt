@@ -1,6 +1,6 @@
-===================|||
+===================
 Multi-lines Strings
-===================|||
+===================
 
 [some-section]
     key = """
@@ -15,19 +15,25 @@ Multi-lines Strings
         value
     '''
 
----|||
+---
 
-(configuration_file
-  (root_section
+(workflow_configuration
+  (top_section
     name: (nametag)
     (setting
       key: (key)
-      value: (multiline_string))
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content)))
     (setting
       key: (key)
-      value: (multiline_string)))
-  (root_section
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content))))
+  (top_section
     name: (nametag)
     (setting
       key: (key)
-      value: (multiline_string))))
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content)))))

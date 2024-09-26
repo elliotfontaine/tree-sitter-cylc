@@ -1,6 +1,6 @@
-=======================|||
+=======================
 Multi-lines Strings (2)
-=======================|||
+=======================
 
 [runtime]
     [[convert_raw]]
@@ -14,18 +14,23 @@ Multi-lines Strings (2)
         [[[meta]]]
             title = Convert Raw
 
----|||
+---
 
-(configuration_file
-    (root_section
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (sub_section_1
+      name: (nametag)
+      (setting
+        key: (key)
+        operator: (assignment_operator)
+        value: (multiline_string
+          (string_content)))
+      (sub_section_2
         name: (nametag)
-        (subsection_1
-            name: (nametag)
-            (setting
-                key: (key)
-                value: (multiline_string))
-            (subsection_2
-                name: (nametag)
-                (setting
-                    key: (key)
-                    value: (unquoted_string))))))
+        (setting
+          key: (key)
+          operator: (assignment_operator)
+          value: (unquoted_string
+            (string_content)
+            (string_content)))))))
