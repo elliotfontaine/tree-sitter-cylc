@@ -1,24 +1,5 @@
 [
   {
-    "type": "configuration_file",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "include_statement",
-          "named": true
-        },
-        {
-          "type": "root_section",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "datetime",
     "named": true,
     "fields": {}
@@ -27,6 +8,26 @@
     "type": "graph_section",
     "named": true,
     "fields": {
+      "brackets_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "]]",
+            "named": false
+          }
+        ]
+      },
+      "brackets_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "[[",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -43,10 +44,50 @@
       "required": false,
       "types": [
         {
-          "type": "recurrence",
+          "type": "graph_setting",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "graph_setting",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "recurrence",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "assignment_operator",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "multiline_graph_string",
+            "named": true
+          },
+          {
+            "type": "unquoted_graph_string",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -80,6 +121,16 @@
     "type": "include_statement",
     "named": true,
     "fields": {
+      "directive": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "include_directive",
+            "named": true
+          }
+        ]
+      },
       "path": {
         "multiple": false,
         "required": true,
@@ -93,6 +144,11 @@
     }
   },
   {
+    "type": "integer",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "intercycle_annotation",
     "named": true,
     "fields": {},
@@ -101,104 +157,41 @@
       "required": true,
       "types": [
         {
-          "type": "cyclepoints",
+          "type": "recurrence",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "multiline_graphstring",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "multiline_string_close",
-          "named": true
-        },
-        {
-          "type": "multiline_string_open",
-          "named": true
-        },
-        {
-          "type": "unquoted_graphstring",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "multiline_string",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "multiline_string_close",
-          "named": true
-        },
-        {
-          "type": "multiline_string_open",
-          "named": true
-        },
-        {
-          "type": "string_content",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "number",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "recurrence",
+    "type": "multiline_graph_string",
     "named": true,
     "fields": {
-      "cyclepoints": {
+      "quotes_close": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "cyclepoints",
-            "named": true
+            "type": "\"\"\"",
+            "named": false
+          },
+          {
+            "type": "'''",
+            "named": false
           }
         ]
       },
-      "graph_string": {
+      "quotes_open": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "multiline_graphstring",
-            "named": true
+            "type": "\"\"\"",
+            "named": false
           },
           {
-            "type": "unquoted_graphstring",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "root_section",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "nametag",
-            "named": true
+            "type": "'''",
+            "named": false
           }
         ]
       }
@@ -208,15 +201,51 @@
       "required": false,
       "types": [
         {
-          "type": "graph_section",
+          "type": "unquoted_graph_string",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "multiline_string",
+    "named": true,
+    "fields": {
+      "quotes_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"\"\"",
+            "named": false
+          },
+          {
+            "type": "'''",
+            "named": false
+          }
+        ]
+      },
+      "quotes_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "\"\"\"",
+            "named": false
+          },
+          {
+            "type": "'''",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
         {
-          "type": "setting",
-          "named": true
-        },
-        {
-          "type": "subsection_1",
+          "type": "string_content",
           "named": true
         }
       ]
@@ -236,6 +265,16 @@
           }
         ]
       },
+      "operator": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "assignment_operator",
+            "named": true
+          }
+        ]
+      },
       "value": {
         "multiple": false,
         "required": false,
@@ -249,11 +288,11 @@
             "named": true
           },
           {
-            "type": "multiline_string",
+            "type": "integer",
             "named": true
           },
           {
-            "type": "number",
+            "type": "multiline_string",
             "named": true
           },
           {
@@ -292,9 +331,29 @@
     }
   },
   {
-    "type": "subsection_1",
+    "type": "sub_section_1",
     "named": true,
     "fields": {
+      "brackets_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "]]",
+            "named": false
+          }
+        ]
+      },
+      "brackets_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "[[",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": false,
@@ -315,7 +374,7 @@
           "named": true
         },
         {
-          "type": "subsection_2",
+          "type": "sub_section_2",
           "named": true
         },
         {
@@ -326,9 +385,29 @@
     }
   },
   {
-    "type": "subsection_2",
+    "type": "sub_section_2",
     "named": true,
     "fields": {
+      "brackets_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "]]]",
+            "named": false
+          }
+        ]
+      },
+      "brackets_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "[[[",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": false,
@@ -382,7 +461,61 @@
     }
   },
   {
-    "type": "unquoted_graphstring",
+    "type": "top_section",
+    "named": true,
+    "fields": {
+      "brackets_close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "]",
+            "named": false
+          }
+        ]
+      },
+      "brackets_open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "[",
+            "named": false
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "nametag",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "graph_section",
+          "named": true
+        },
+        {
+          "type": "setting",
+          "named": true
+        },
+        {
+          "type": "sub_section_1",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unquoted_graph_string",
     "named": true,
     "fields": {},
     "children": {
@@ -420,7 +553,34 @@
     }
   },
   {
-    "type": "%include",
+    "type": "workflow_configuration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "include_statement",
+          "named": true
+        },
+        {
+          "type": "jinja2_shebang",
+          "named": true
+        },
+        {
+          "type": "top_section",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "\"\"\"",
+    "named": false
+  },
+  {
+    "type": "'''",
     "named": false
   },
   {
@@ -429,10 +589,6 @@
   },
   {
     "type": "<",
-    "named": false
-  },
-  {
-    "type": "=",
     "named": false
   },
   {
@@ -468,15 +624,15 @@
     "named": false
   },
   {
+    "type": "assignment_operator",
+    "named": true
+  },
+  {
     "type": "boolean",
     "named": true
   },
   {
     "type": "comment",
-    "named": true
-  },
-  {
-    "type": "cyclepoints",
     "named": true
   },
   {
@@ -488,11 +644,19 @@
     "named": true
   },
   {
+    "type": "include_directive",
+    "named": true
+  },
+  {
     "type": "jinja2_comment",
     "named": true
   },
   {
     "type": "jinja2_expression",
+    "named": true
+  },
+  {
+    "type": "jinja2_shebang",
     "named": true
   },
   {
@@ -504,19 +668,15 @@
     "named": true
   },
   {
-    "type": "multiline_string_close",
-    "named": true
-  },
-  {
-    "type": "multiline_string_open",
-    "named": true
-  },
-  {
     "type": "nametag",
     "named": true
   },
   {
     "type": "quoted_string",
+    "named": true
+  },
+  {
+    "type": "recurrence",
     "named": true
   }
 ]
