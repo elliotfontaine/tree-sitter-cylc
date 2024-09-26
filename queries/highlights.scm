@@ -4,25 +4,26 @@
   (jinja2_expression)
   (jinja2_statement)
   (jinja2_comment)
+  (jinja2_shebang)
 ] @text.literal
 
 (include_statement) @embedded
 
 (comment) @comment
 
-(root_section
-  "[" @operator
-  name: (nametag) @title
-  "]" @operator)
+(top_section
+  brackets_open: _ @operator
+  name: (_) @title
+  brackets_close: _ @operator)
 
-(subsection_1
+(sub_section_1
   "[[" @operator
-  name: (nametag) @title
+  name: (_) @title
   "]]" @operator)
 
-(subsection_2
+(sub_section_2
   "[[[" @operator
-  name: (nametag) @title
+  name: (_) @title
   "]]]" @operator)
 
 (graph_section
@@ -30,13 +31,13 @@
   name: (nametag) @hint
   "]]" @property)
 
-(recurrence
-  cyclepoints: (cyclepoints) @number
-  "=" @operator)
+(graph_setting
+  key: (_) @number
+  operator: (_) @operator)
 
-(multiline_graphstring
-  (multiline_string_open) @operator
-  (multiline_string_close) @operator)
+(multiline_graph_string
+  quotes_open: _ @operator
+  quotes_close: _ @operator)
 
 [
   (graph_logical) 
@@ -44,7 +45,7 @@
 ] @operator
 
 (intercycle_annotation
-  (cyclepoints) @number)
+  (recurrence) @number)
 
 (graph_task
   (nametag) @emphasis)
@@ -56,7 +57,7 @@
 
 (intercycle_annotation
   "[" @punctuation
-  (cyclepoints) @number
+  (recurrence) @number
   "]" @punctuation)
 
 (task_output
@@ -65,14 +66,14 @@
     "?"? @punctuation)
 
 (setting
-  key: (key) @variable
-  "=" @operator
+  key: (_) @variable
+  operator: (_) @operator
   value: [
     (unquoted_string) @string
     (quoted_string) @string
     (multiline_string) @string
     (boolean) @boolean
-    (number) @number
+    (integer) @number
   ]?)
 
   (datetime) @number

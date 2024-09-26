@@ -3,7 +3,7 @@
 
 const PREC = {
   unquoted_string: 1,
-  number: 2,
+  integer: 2,
   datetime: 2,
   boolean: 4,
   comment: 5,
@@ -23,19 +23,12 @@ module.exports = grammar({
     $.comment,
   ],
 
-  // TODO: rename grammar rules:
-  // - root_section -> top_section
-  // - subsection_1 -> sub_section_1
-  // - subsection_2 -> sub_section_2
-  // - multiline_string -> multilines_string
-  // - number -> integer
-
   rules: {
     // ----------------------------- Start Symbol -----------------------------
-    configuration_file: ($) =>
+    workflow_configuration: ($) =>
       seq(
         optional($.jinja2_shebang),
-        repeat(choice($.root_section, $.include_statement)),
+        repeat(choice($.top_section, $.include_statement)),
       ),
 
     // --------------------------- Terminal symbols ---------------------------
@@ -50,7 +43,9 @@ module.exports = grammar({
 
     jinja2_comment: (_) => token(prec(PREC.jinja2, seq("{#", /[^#]*/, "#}"))),
 
-    cyclepoints: (_) => token(repeat1(choice(/[A-Z0-9/^$+\-,()!]+/, "min"))),
+    include_directive: (_) => "%include",
+
+    recurrence: (_) => token(repeat1(choice(/[A-Z0-9/^$+\-,()!]+/, "min"))),
 
     graph_logical: (_) => token(choice("&", "|")),
 
@@ -65,9 +60,11 @@ module.exports = grammar({
 
     boolean: (_) => token(choice("True", "False")),
 
-    number: (_) => prec.left(PREC.number, token(/\d+/)),
+    integer: (_) => prec.left(PREC.integer, token(/\d+/)),
 
     _line_return: (_) => /\r?\n/,
+
+    assignment_operator: (_) => "=",
 
     datetime: (_) =>
       prec.right(
@@ -143,48 +140,51 @@ module.exports = grammar({
       choice($.jinja2_expression, $.jinja2_statement, $.jinja2_comment),
 
     include_statement: ($) =>
-      seq(token("%include"), field("path", $.quoted_string)),
-
-    root_section: ($) =>
       seq(
-        "[",
+        field("directive", $.include_directive),
+        field("path", $.quoted_string),
+      ),
+
+    top_section: ($) =>
+      seq(
+        field("brackets_open", "["),
         optional(
           choice(
             field("name", $.nametag),
             field("name", alias("task parameters", $.nametag)),
           ),
         ),
-        "]",
+        field("brackets_close", "]"),
         $._line_return,
         optional(repeat($.setting)),
-        optional(repeat(choice($.subsection_1, $.graph_section))),
+        optional(repeat(choice($.sub_section_1, $.graph_section))),
       ),
 
-    subsection_1: ($) =>
+    sub_section_1: ($) =>
       seq(
-        "[[",
+        field("brackets_open", "[["),
         optional(field("name", $.nametag)),
         optional($.task_parameter),
-        "]]",
+        field("brackets_close", "]]"),
         $._line_return,
         optional(repeat($.setting)),
-        optional(repeat($.subsection_2)),
+        optional(repeat($.sub_section_2)),
       ),
 
     graph_section: ($) =>
       seq(
-        "[[",
+        field("brackets_open", "[["),
         field("name", alias("graph", $.nametag)),
-        "]]",
+        field("brackets_close", "]]"),
         $._line_return,
-        optional(repeat($.recurrence)),
+        optional(repeat($.graph_setting)),
       ),
 
-    subsection_2: ($) =>
+    sub_section_2: ($) =>
       seq(
-        "[[[",
+        field("brackets_open", "[[["),
         optional(field("name", $.nametag)),
-        "]]]",
+        field("brackets_close", "]]]"),
         $._line_return,
         optional(repeat($.setting)),
       ),
@@ -194,7 +194,7 @@ module.exports = grammar({
         field("key", $.key),
         optional(
           seq(
-            "=",
+            field("operator", $.assignment_operator),
             field(
               "value",
               optional(
@@ -202,7 +202,7 @@ module.exports = grammar({
                   $.quoted_string,
                   $.multiline_string,
                   $.datetime,
-                  $.number,
+                  $.integer,
                   $.boolean,
                   $.unquoted_string,
                 ),
@@ -213,37 +213,33 @@ module.exports = grammar({
         $._line_return,
       ),
 
-    recurrence: ($) =>
+    graph_setting: ($) =>
       seq(
-        field("cyclepoints", $.cyclepoints),
-        "=",
+        field("key", $.recurrence),
+        field("operator", $.assignment_operator),
         field(
-          "graph_string",
-          choice(
-            //"\n", // Empty value
-            $.multiline_graphstring,
-            $.unquoted_graphstring,
-          ),
+          "value",
+          choice($.multiline_graph_string, $.unquoted_graph_string),
         ),
         $._line_return,
       ),
 
-    unquoted_graphstring: ($) =>
+    unquoted_graph_string: ($) =>
       prec.left(
         seq(repeat1(choice($.graph_logical, $.graph_task, $.graph_arrow))),
       ),
 
-    multiline_graphstring: ($) =>
+    multiline_graph_string: ($) =>
       choice(
         seq(
-          alias('"""', $.multiline_string_open),
-          repeat($.unquoted_graphstring),
-          alias('"""', $.multiline_string_close),
+          field("quotes_open", '"""'),
+          repeat($.unquoted_graph_string),
+          field("quotes_close", '"""'),
         ),
         seq(
-          alias("'''", $.multiline_string_open),
-          repeat($.unquoted_graphstring),
-          alias("'''", $.multiline_string_close),
+          field("quotes_open", "'''"),
+          repeat($.unquoted_graph_string),
+          field("quotes_close", "'''"),
         ),
       ),
 
@@ -262,13 +258,13 @@ module.exports = grammar({
       seq(token.immediate(":"), $.nametag, optional(token.immediate("?"))),
 
     intercycle_annotation: ($) =>
-      seq(token.immediate("["), $.cyclepoints, token.immediate("]")),
+      seq(token.immediate("["), $.recurrence, token.immediate("]")),
 
     multiline_string: ($) =>
       choice(
         // Triple double quotes
         seq(
-          alias(token('"""'), $.multiline_string_open),
+          field("quotes_open", '"""'),
           alias(
             repeat(
               choice(
@@ -282,18 +278,18 @@ module.exports = grammar({
             ),
             $.string_content,
           ),
-          alias('"""', $.multiline_string_close),
+          field("quotes_close", '"""'),
         ),
         // Triple single quotes
         seq(
-          alias("'''", $.multiline_string_open),
+          field("quotes_open", "'''"),
           alias(
             token(
               repeat(choice(/[^'\\]/, /\\./, /'[^']/, /''[^']/, /\\\s*\n/)),
             ),
             $.string_content,
           ),
-          alias("'''", $.multiline_string_close),
+          field("quotes_close", "'''"),
         ),
       ),
 
@@ -302,7 +298,7 @@ module.exports = grammar({
         choice(
           // Match double quotes
           seq(
-            '"',
+            field("quotes_open", '"'),
             alias(
               repeat1(
                 choice(
@@ -313,16 +309,16 @@ module.exports = grammar({
               ),
               $.string_content,
             ),
-            '"',
+            field("quotes_close", '"'),
           ),
           // Match single quotes
           seq(
-            "'",
+            field("quotes_open", "'"),
             alias(
               repeat(choice(/[^'\\\n]/, /\\./, /\\\n\s*/)),
               $.string_content,
             ),
-            "'",
+            field("quotes_close", "'"),
           ),
         ),
       ),
