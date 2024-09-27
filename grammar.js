@@ -80,9 +80,9 @@ module.exports = grammar({
 
     key: (_) => seq(/[\p{L}\p{N}]+/, repeat(/[\p{L}\p{N} \t_-]/)), // doesn't allow +@% for keys
 
-    boolean: (_) => token(choice("True", "False")),
+    boolean: (_) => token(seq(choice("True", "False"), repeat(/[ \t]/))),
 
-    integer: (_) => prec.left(PREC.integer, token(/\d+/)),
+    integer: ($) => token(seq(repeat1(/\d+/), repeat(/[ \t]/))),
 
     _line_return: (_) => /\r?\n/,
 
@@ -151,6 +151,7 @@ module.exports = grammar({
                 ),
               ),
             ),
+            repeat(/[ \t]/),
           ),
         ),
       ),
