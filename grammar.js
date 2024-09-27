@@ -1,17 +1,6 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const PREC = {
-  unquoted_string: 1,
-  integer: 2,
-  datetime: 2,
-  boolean: 4,
-  comment: 5,
-  quoted_string: 6,
-  multiline_string: 8,
-  jinja2: 100,
-};
-
 module.exports = grammar({
   name: "cylc",
 
@@ -33,6 +22,7 @@ module.exports = grammar({
 
   rules: {
     // ----------------------------- Start Symbol -----------------------------
+
     workflow_configuration: ($) =>
       seq(
         optional($.jinja2_shebang),
@@ -50,12 +40,11 @@ module.exports = grammar({
 
     jinja2_shebang: (_) => "#!Jinja2",
 
-    jinja2_expression: (_) =>
-      token(prec(PREC.jinja2, seq("{{", /[^{}]*/, "}}"))),
+    jinja2_expression: (_) => token(prec(10, seq("{{", /[^{}]*/, "}}"))),
 
-    jinja2_statement: (_) => token(prec(PREC.jinja2, seq("{%", /[^%]*/, "%}"))),
+    jinja2_statement: (_) => token(prec(10, seq("{%", /[^{%]*/, "%}"))),
 
-    jinja2_comment: (_) => token(prec(PREC.jinja2, seq("{#", /[^#]*/, "#}"))),
+    jinja2_comment: (_) => token(prec(10, seq("{#", /[^{#]*/, "#}"))),
 
     include_directive: (_) => "%include",
 
@@ -67,9 +56,9 @@ module.exports = grammar({
 
     comment: (_) => seq("#", /[^\r\n]*/),
 
-    // revert to these if Unicode make the parser too slow.
+    // revert to these if Unicode makes the parser too slow.
     // nametag: (_) => /[a-zA-Z0-9\-_+%@]+/,
-    // key: (_) => /[\p{L}\p{N}_-]+(\s[\p{L}\p{N}_-]+)*/,
+    // key: (_) => /[a-zA-Z0-9_-]+(\s[a-zA-Z0-9_-]+)*/,
 
     // used for section names + task/family names + task outputs / task parameters (in graph).
     nametag: (_) =>
@@ -82,68 +71,41 @@ module.exports = grammar({
 
     boolean: (_) => token(seq(choice("True", "False"), repeat(/[ \t]/))),
 
-    integer: ($) => token(seq(repeat1(/\d+/), repeat(/[ \t]/))),
+    integer: (_) => token(seq(repeat1(/\d+/), repeat(/[ \t]/))),
 
     _line_return: (_) => /\r?\n/,
 
     assignment_operator: (_) => "=",
 
     datetime: (_) =>
-      prec.right(
-        PREC.datetime,
-        token(
-          seq(
-            choice(
-              seq(
-                // with separators
-                field(
-                  "date",
-                  /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|30|31)/,
-                ),
-                "T",
-                optional(
-                  // optional time
-                  seq(
-                    token.immediate(
-                      choice(
-                        /[0-9]{2}:[0-9]{2}:[0-9]{2}/,
-                        /[0-9]{2}:[0-9]{2}/,
-                        /[0-9]{2}/,
-                      ),
-                    ),
-                    optional(
-                      // when time is present, optional timezone
-                      choice(
-                        "Z",
-                        seq(
-                          choice("+", "-"),
-                          token.immediate(
-                            choice(/[0-9]{2}:[0-9]{2}/, /[0-9]{2}/),
-                          ),
-                        ),
-                      ),
+      token(
+        seq(
+          choice(
+            seq(
+              // with separators
+              field(
+                "date",
+                /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|30|31)/,
+              ),
+              "T",
+              optional(
+                // optional time
+                seq(
+                  token.immediate(
+                    choice(
+                      /[0-9]{2}:[0-9]{2}:[0-9]{2}/,
+                      /[0-9]{2}:[0-9]{2}/,
+                      /[0-9]{2}/,
                     ),
                   ),
-                ),
-              ),
-              seq(
-                // without separators
-                field(
-                  "date",
-                  /[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|30|31)/,
-                ),
-                "T",
-                optional(
-                  seq(
-                    token.immediate(choice(/[0-9]{6}/, /[0-9]{4}/, /[0-9]{2}/)),
-                    optional(
-                      choice(
-                        "Z",
-                        seq(
-                          choice("+", "-"),
-                          token.immediate(
-                            choice(/[0-9]{2}[0-9]{2}/, /[0-9]{2}/),
-                          ),
+                  optional(
+                    // when time is present, optional timezone
+                    choice(
+                      "Z",
+                      seq(
+                        choice("+", "-"),
+                        token.immediate(
+                          choice(/[0-9]{2}:[0-9]{2}/, /[0-9]{2}/),
                         ),
                       ),
                     ),
@@ -151,16 +113,32 @@ module.exports = grammar({
                 ),
               ),
             ),
-            repeat(/[ \t]/),
+            seq(
+              // without separators
+              field("date", /[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|30|31)/),
+              "T",
+              optional(
+                seq(
+                  token.immediate(choice(/[0-9]{6}/, /[0-9]{4}/, /[0-9]{2}/)),
+                  optional(
+                    choice(
+                      "Z",
+                      seq(
+                        choice("+", "-"),
+                        token.immediate(choice(/[0-9]{2}[0-9]{2}/, /[0-9]{2}/)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
+          repeat(/[ \t]/),
         ),
       ),
 
     // ------------------------- Non-Terminal Symbols -------------------------
     // Made up of Rules and literals.
-
-    _jinja2: ($) =>
-      choice($.jinja2_expression, $.jinja2_statement, $.jinja2_comment),
 
     include_statement: ($) =>
       seq(
@@ -207,30 +185,6 @@ module.exports = grammar({
         field("brackets_close", "]]]"),
         $._line_return,
         optional(repeat(choice($.setting, $._line_return))),
-      ),
-
-    setting: ($) =>
-      seq(
-        field("key", $.key),
-        optional(
-          seq(
-            field("operator", $.assignment_operator),
-            field(
-              "value",
-              optional(
-                choice(
-                  $.quoted_string,
-                  $.multiline_string,
-                  $.datetime,
-                  $.integer,
-                  $.boolean,
-                  $.unquoted_string,
-                ),
-              ),
-            ),
-          ),
-        ),
-        $._line_return,
       ),
 
     graph_setting: ($) =>
@@ -280,41 +234,32 @@ module.exports = grammar({
     intercycle_annotation: ($) =>
       seq(token.immediate("["), $.recurrence, token.immediate("]")),
 
-    unquoted_string: ($) =>
-      alias(repeat1(token(/[^ "'#\n][^{#\n]*/)), $.string_content),
-
-    multiline_string: ($) =>
-      choice(
-        // Triple double quotes
-        seq(
-          field("quotes_open", '"""'),
-          alias(
-            repeat(
-              choice(
-                /[^"\\]/, // Any character except double quotes or backslashes
-                /\\./, // Escaped sequences (e.g., \n, \t, \")
-                /"[^"]/, // Allow a single quote, not followed by another quote
-                /""[^"]/, // Allow one or two quotes inside the string
-                /\\\s*\n/, // Allow backslashes followed by optional spaces and a newline (for line continuation)
-                $._jinja2,
+    setting: ($) =>
+      seq(
+        field("key", $.key),
+        optional(
+          seq(
+            field("operator", $.assignment_operator),
+            field(
+              "value",
+              optional(
+                choice(
+                  $.unquoted_string,
+                  $.quoted_string,
+                  $.multiline_string,
+                  $.datetime,
+                  $.integer,
+                  $.boolean,
+                ),
               ),
             ),
-            $.string_content,
           ),
-          field("quotes_close", '"""'),
         ),
-        // Triple single quotes
-        seq(
-          field("quotes_open", "'''"),
-          alias(
-            token(
-              repeat(choice(/[^'\\]/, /\\./, /'[^']/, /''[^']/, /\\\s*\n/)),
-            ),
-            $.string_content,
-          ),
-          field("quotes_close", "'''"),
-        ),
+        $._line_return,
       ),
+
+    unquoted_string: ($) =>
+      alias(repeat1(token(/[^ "'#\n][^{#\n]*/)), $.string_content),
 
     quoted_string: ($) =>
       choice(
@@ -341,35 +286,36 @@ module.exports = grammar({
         ),
       ),
 
-    // TODO: COMPLETE ISO 8601 datetime
-    // Cylc Specificities:
-    // - no decimal fractions (shortest cycling interval is 1 minute).
-    // - SOME truncated representations are allowed https://en.wikipedia.org/wiki/ISO_8601#Truncated_representations_(deprecated)
-    //
-    // See: https://cylc.github.io/cylc-doc/latest/html/tutorial/scheduling/datetime-cycling.html#tutorial-iso8601-datetimes
-    // See: https://github.com/metomi/isodatetime/blob/master/metomi/isodatetime/tests/test_00.py
-    // There is too much to do it alone right now... Could be it's own grammar !
-
-    // extended_datetime: ($) =>
-    //   seq(
-    //     choice(
-    //       seq($.year, $.date_sep, $.month, $.date_sep, $.day),
-    //       seq($.month, $.date_sep, $.day),
-    //       $.day,
-    //       $.year
-    //     ),
-    //     $.datetime_sep
-    //     // ...
-    //   ),
-
-    // datetime_sep: ($) => "T",
-    // date_sep: ($) => "-",
-    // time_sep: ($) => ":",
-    // year: ($) => /[0-9]{4}/,
-    // month: ($) => /(0[1-9]|1[0-2])/,
-    // day: ($) => /(0[1-9]|[12][0-9]|30|31)/,
-    // hour: ($) => /([01][0-9]|2[0-3])/,
-    // minute: ($) => /[0-5][0-9]/,
-    // second: ($) => /[0-5][0-9]/,
+    multiline_string: ($) =>
+      choice(
+        // Triple double quotes
+        seq(
+          field("quotes_open", '"""'),
+          alias(
+            repeat(
+              choice(
+                /[^"\\]/, // Any character except double quotes or backslashes
+                /\\./, // Escaped sequences (e.g., \n, \t, \")
+                /"[^"]/, // Allow a single quote, not followed by another quote
+                /""[^"]/, // Allow one or two quotes inside the string
+                /\\\s*\n/, // Allow backslashes followed by optional spaces and a newline (for line continuation)
+              ),
+            ),
+            $.string_content,
+          ),
+          field("quotes_close", '"""'),
+        ),
+        // Triple single quotes
+        seq(
+          field("quotes_open", "'''"),
+          alias(
+            token(
+              repeat(choice(/[^'\\]/, /\\./, /'[^']/, /''[^']/, /\\\s*\n/)),
+            ),
+            $.string_content,
+          ),
+          field("quotes_close", "'''"),
+        ),
+      ),
   },
 });
