@@ -67,10 +67,18 @@ module.exports = grammar({
 
     comment: (_) => seq("#", /[^\r\n]*/),
 
-    // used for section names + task/family names + task outputs / task parameters (in graph).
-    nametag: (_) => /[a-zA-Z0-9\-_+%@]+/, // TODO: allow for unicode characters in nametags
+    // revert to these if Unicode make the parser too slow.
+    // nametag: (_) => /[a-zA-Z0-9\-_+%@]+/,
+    // key: (_) => /[\p{L}\p{N}_-]+(\s[\p{L}\p{N}_-]+)*/,
 
-    key: (_) => /[a-zA-Z0-9_-]+(\s[a-zA-Z0-9_-]+)*/, // TODO: allow for unicode characters in keys
+    // used for section names + task/family names + task outputs / task parameters (in graph).
+    nametag: (_) =>
+      seq(
+        /[\p{L}\p{N}]+/, // First character: alphanumeric (possibly Unicode)
+        repeat(/[\p{L}\p{N} \t+%@_-]/), // Rest of the string: alphanumerical, spaces, or characters in -_+%@
+      ),
+
+    key: (_) => seq(/[\p{L}\p{N}]+/, repeat(/[\p{L}\p{N} \t_-]/)), // doesn't allow +@% for keys
 
     boolean: (_) => token(choice("True", "False")),
 
