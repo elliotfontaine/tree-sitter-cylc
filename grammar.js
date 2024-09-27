@@ -294,32 +294,27 @@ module.exports = grammar({
       ),
 
     quoted_string: ($) =>
-      token(
-        choice(
-          // Match double quotes
-          seq(
-            field("quotes_open", '"'),
-            alias(
-              repeat1(
-                choice(
-                  /[^"\\\n]/, // Match any character except double quotes, backslashes, or newlines
-                  /\\./, // Match escaped characters (e.g., \" or \')
-                  /\\\n\s*/, // Match a backslash followed by a newline and optional spaces (line continuation)
-                ),
+      choice(
+        // Match double quotes
+        seq(
+          field("quotes_open", '"'),
+          alias(
+            repeat1(
+              choice(
+                /[^"\\\n]/, // Match any character except double quotes, backslashes, or newlines
+                /\\./, // Match escaped characters (e.g., \" or \')
+                /\\\n\s*/, // Match a backslash followed by a newline and optional spaces (line continuation)
               ),
-              $.string_content,
             ),
-            field("quotes_close", '"'),
+            $.string_content,
           ),
-          // Match single quotes
-          seq(
-            field("quotes_open", "'"),
-            alias(
-              repeat(choice(/[^'\\\n]/, /\\./, /\\\n\s*/)),
-              $.string_content,
-            ),
-            field("quotes_close", "'"),
-          ),
+          field("quotes_close", '"'),
+        ),
+        // Match single quotes
+        seq(
+          field("quotes_open", "'"),
+          alias(repeat(choice(/[^'\\\n]/, /\\./, /\\\n\s*/)), $.string_content),
+          field("quotes_close", "'"),
         ),
       ),
 
