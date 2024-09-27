@@ -279,6 +279,9 @@ module.exports = grammar({
     intercycle_annotation: ($) =>
       seq(token.immediate("["), $.recurrence, token.immediate("]")),
 
+    unquoted_string: ($) =>
+      alias(repeat1(token(/[^ "'#\n][^{#\n]*/)), $.string_content),
+
     multiline_string: ($) =>
       choice(
         // Triple double quotes
@@ -334,24 +337,6 @@ module.exports = grammar({
           field("quotes_open", "'"),
           alias(repeat(choice(/[^'\\\n]/, /\\./, /\\\n\s*/)), $.string_content),
           field("quotes_close", "'"),
-        ),
-      ),
-
-    unquoted_string: ($) =>
-      prec(
-        PREC.unquoted_string,
-        alias(
-          seq(
-            /[^"'\s\n]/,
-            repeat(
-              choice(
-                token.immediate(/[^"'#\n][^{#\n]*/),
-                $._jinja2,
-                //repeat(choice(token.immediate(/[^"'#\s\n][^#\n]*/), $._jinja2))
-              ),
-            ),
-          ),
-          $.string_content,
         ),
       ),
 
