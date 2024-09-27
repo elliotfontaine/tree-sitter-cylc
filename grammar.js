@@ -16,11 +16,19 @@ module.exports = grammar({
   name: "cylc",
 
   extras: ($) => [
-    /[\s\f\uFEFF\u2060\u200B]|\r?\n/, // Whitespaces and newlines
+    // /[ \t\f\uFEFF\u2060\u200B]/, // breaks line returns requirements
+    /[ \t]/, // Whitespaces
     $.jinja2_expression,
     $.jinja2_statement,
     $.jinja2_comment,
     $.comment,
+  ],
+
+  conflicts: ($) => [
+    [$.top_section],
+    [$.sub_section_1],
+    [$.graph_section],
+    [$.sub_section_2],
   ],
 
   rules: {
@@ -28,7 +36,13 @@ module.exports = grammar({
     workflow_configuration: ($) =>
       seq(
         optional($.jinja2_shebang),
-        repeat(choice($.top_section, $.include_statement)),
+        repeat(
+          choice(
+            seq($.top_section),
+            seq($.include_statement, $._line_return),
+            $._line_return,
+          ),
+        ),
       ),
 
     // --------------------------- Terminal symbols ---------------------------
@@ -51,7 +65,7 @@ module.exports = grammar({
 
     graph_arrow: (_) => "=>",
 
-    comment: (_) => token(seq("#", /.*/)),
+    comment: (_) => seq("#", /[^\r\n]*/),
 
     // used for section names + task/family names + task outputs / task parameters (in graph).
     nametag: (_) => /[a-zA-Z0-9\-_+%@]+/, // TODO: allow for unicode characters in nametags
@@ -148,16 +162,13 @@ module.exports = grammar({
     top_section: ($) =>
       seq(
         field("brackets_open", "["),
-        optional(
-          choice(
-            field("name", $.nametag),
-            field("name", alias("task parameters", $.nametag)),
-          ),
-        ),
+        optional(field("name", $.nametag)),
         field("brackets_close", "]"),
         $._line_return,
-        optional(repeat($.setting)),
-        optional(repeat(choice($.sub_section_1, $.graph_section))),
+        optional(repeat(choice($.setting, $._line_return))),
+        optional(
+          repeat(choice($.sub_section_1, $.graph_section, $._line_return)),
+        ),
       ),
 
     sub_section_1: ($) =>
@@ -167,8 +178,8 @@ module.exports = grammar({
         optional($.task_parameter),
         field("brackets_close", "]]"),
         $._line_return,
-        optional(repeat($.setting)),
-        optional(repeat($.sub_section_2)),
+        optional(repeat(choice($.setting, $._line_return))),
+        optional(repeat(choice($.sub_section_2, $._line_return))),
       ),
 
     graph_section: ($) =>
@@ -177,7 +188,7 @@ module.exports = grammar({
         field("name", alias("graph", $.nametag)),
         field("brackets_close", "]]"),
         $._line_return,
-        optional(repeat($.graph_setting)),
+        optional(repeat(choice($.graph_setting, $._line_return))),
       ),
 
     sub_section_2: ($) =>
@@ -186,7 +197,7 @@ module.exports = grammar({
         optional(field("name", $.nametag)),
         field("brackets_close", "]]]"),
         $._line_return,
-        optional(repeat($.setting)),
+        optional(repeat(choice($.setting, $._line_return))),
       ),
 
     setting: ($) =>
