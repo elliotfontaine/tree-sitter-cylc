@@ -239,11 +239,11 @@ module.exports = grammar({
 
     graph_task: ($) =>
       seq(
-        optional($.xtrigger_annotation),
-        $.nametag,
-        optional($.task_parameter),
-        optional($.intercycle_annotation),
-        optional($.task_output),
+        optional(field("xtrigger", $.xtrigger_annotation)),
+        field("name", $.nametag),
+        optional(field("parameter", $.task_parameter)),
+        optional(field("intercycle", $.intercycle_annotation)),
+        optional(field("output", $.task_output)),
       ),
 
     task_parameter: ($) =>
