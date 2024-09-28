@@ -13,31 +13,31 @@
 
 (top_section
   brackets_open: _ @operator
-  name: (_) @title
+  name: (_)? @title
   brackets_close: _ @operator)
 
 (sub_section_1
-  "[[" @operator
-  name: (_) @title
-  "]]" @operator)
+  brackets_open: _ @operator
+  name: (_)? @title
+  brackets_close: _ @operator)
 
 (sub_section_2
-  "[[[" @operator
-  name: (_) @title
-  "]]]" @operator)
+  brackets_open: _ @operator
+  name: (_)? @title
+  brackets_close: _ @operator)
 
 (graph_section
-  "[[" @property
-  name: (nametag) @hint
-  "]]" @property)
+  brackets_open: _ @property
+  name: (_)? @hint
+  brackets_close: _ @property)
 
 (graph_setting
   key: (_) @number
   operator: (_) @operator)
 
 (multiline_graph_string
-  quotes_open: _ @operator
-  quotes_close: _ @operator)
+  quotes_open: _ @string
+  quotes_close: _ @string)
 
 [
   (graph_logical) 
@@ -48,16 +48,17 @@
   (recurrence) @number)
 
 (graph_task
-  (nametag) @emphasis)
+  xtrigger: _? @property
+  name: _ @emphasis)
 
 (task_parameter
   "<" @punctuation
-  (nametag) @text.literal
+  (nametag)? @text.literal
   ">" @punctuation)
 
 (intercycle_annotation
   "[" @punctuation
-  (recurrence) @number
+  (recurrence)? @number
   "]" @punctuation)
 
 (task_output
@@ -67,7 +68,7 @@
 
 (setting
   key: (_) @variable
-  operator: (_) @operator
+  operator: (_)? @operator
   value: [
     (unquoted_string) @string
     (quoted_string) @string
@@ -77,6 +78,3 @@
   ]?)
 
   (datetime) @number
-
-
-
