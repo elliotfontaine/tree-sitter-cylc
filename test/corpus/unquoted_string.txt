@@ -1,0 +1,19 @@
+================================================================================
+unsupported: quote directly after jinja
+:skip
+================================================================================
+
+[scheduling]
+INFLUXDB_V2_URL =  this is unquoted string: "{{N_DATASETS}}".
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content
+         (jinja2_expression))))))

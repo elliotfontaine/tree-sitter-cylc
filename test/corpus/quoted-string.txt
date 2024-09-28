@@ -1,0 +1,54 @@
+================================================================================
+basic quoted string
+================================================================================
+
+[some-section]
+    key="String is quoted."
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (quoted_string
+        (string_content)))))
+
+================================================================================
+nested quoted string
+================================================================================
+
+[some-section]
+    just a key = "Quote with 'single quotes' inside"
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (quoted_string
+        (string_content)))))
+
+================================================================================
+unsupported: #comment in quoted string
+:skip
+================================================================================
+
+[some-section]
+    another-key = "This one \"too. #not a comment" # And real comment
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (quoted_string
+        (string_content)))))

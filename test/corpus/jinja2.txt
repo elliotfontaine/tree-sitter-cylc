@@ -1,7 +1,25 @@
-=======================================
-Jinja2 (Statement, Expression, Comment)
+================================================================================
+unsupported: expression in integer
 :skip
-=======================================
+================================================================================
+
+[scheduling]
+INFLUXDB_V2_URL = 1{{ cfg__influxdb_url }}2
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (integer
+        (jinja2_expression)))))
+
+================================================================================
+jinja2 (statement, expression, comment)
+================================================================================
 
 # {% stating something %}    is for Statements
 # {{ expressing something }} is for Expressions
@@ -9,18 +27,18 @@ Jinja2 (Statement, Expression, Comment)
 
 [scheduling]
     [[xtriggers]]
-{% if cfg__input_strategy == 'internal' %}
+        {% if cfg__input_strategy == 'internal' %}
         catch_raw = catch_raw_internal('%(point)s', '%(workflow_run_dir)s')
-{% elif cfg__input_strategy == 'local' %}
+        {% elif cfg__input_strategy == 'local' %}
         catch_raw = catch_raw_local('%(point)s', '%(workflow_run_dir)s', {{ cfg__local_runs_dir }})
-{% endif %}
+        {% endif %}
     [[environment]]
-        INFLUXDB_{{ param }}_TEST = 1{{ id_fragment }}8
-        INFLUXDB_V2_URL = {{ cfg__influxdb_url }}
+        INFLUXDB_{{ param }}_TEST = 1{{ id_fragment }}
+        INFLUXDB_V2_URL = {{ cfg__influxdb_url }}2
         INFLUXDB_V2_ORG = "org-{{ cfg__influxdb_org }}-2"
         INFLUXDB_V2_TOKEN = {{ cfg__influxdb_auth_token }}
 
----
+--------------------------------------------------------------------------------
 
 (workflow_configuration
   (comment
@@ -36,27 +54,37 @@ Jinja2 (Statement, Expression, Comment)
       (jinja2_statement)
       (setting
         key: (key)
-        value: (unquoted_string))
+        operator: (assignment_operator)
+        value: (unquoted_string
+          (string_content)))
       (jinja2_statement)
       (setting
         key: (key)
-        value: (unquoted_string)
-        (jinja2_expression)))
-    (jinja2_statement)
+        operator: (assignment_operator)
+        value: (unquoted_string
+          (string_content
+            (jinja2_expression))))
+      (jinja2_statement))
     (sub_section_1
       name: (nametag)
       (setting
         key: (key
           (jinja2_expression))
-        value: (integer
-          (jinja2_expression)))
-      (setting
-        key: (key)
+        operator: (assignment_operator)
+        value: (integer)
         (jinja2_expression))
       (setting
         key: (key)
-        value: (quoted_string)
-        (jinja2_expression))
+        operator: (assignment_operator)
+        (jinja2_expression)
+        value: (integer))
       (setting
         key: (key)
+        operator: (assignment_operator)
+        value: (quoted_string
+          (string_content
+            (jinja2_expression))))
+      (setting
+        key: (key)
+        operator: (assignment_operator)
         (jinja2_expression)))))

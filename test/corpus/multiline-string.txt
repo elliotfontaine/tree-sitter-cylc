@@ -1,0 +1,111 @@
+================================================================================
+multi-line string
+================================================================================
+
+[some-section]
+    key = """
+        This line
+        is written
+        over multiple lines
+    """
+    another-key = """What is 'the ''point then?!"""
+[other-root]
+    just a key = '''
+        with a ''
+        value
+    '''
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content)))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content))))
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content)))))
+
+================================================================================
+multi-line string (2)
+================================================================================
+
+[runtime]
+    [[convert_raw]]
+        script = """
+            thermorawfileparser
+                --format=${format} \
+                --input=${input} \
+                --output=${output} \
+                --metadata=${metadata}
+        """
+        [[[meta]]]
+            title = Convert Raw
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (sub_section_1
+      name: (nametag)
+      (setting
+        key: (key)
+        operator: (assignment_operator)
+        value: (multiline_string
+          (string_content)))
+      (sub_section_2
+        name: (nametag)
+        (setting
+          key: (key)
+          operator: (assignment_operator)
+          value: (unquoted_string
+            (string_content)))))))
+
+================================================================================
+multi-line string (3)
+================================================================================
+
+[runtime]
+    [[root]]
+        env-script = """
+            $(eval rose task-env)
+            if [ "${CYLC_TASK_CYCLE_POINT}" != "0" ]; then
+                mkdir -p "${ROSE_DATAC}/dataflow"
+                mkdir -p "${ROSE_DATAC}/qc"
+            fi
+        """
+        [[[environment]]]
+            USER_CONFIG_DIR = ${CYLC_WORKFLOW_RUN_DIR}/config
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (sub_section_1
+      name: (nametag)
+      (setting
+        key: (key)
+        operator: (assignment_operator)
+        value: (multiline_string
+          (string_content)))
+      (sub_section_2
+        name: (nametag)
+        (setting
+          key: (key)
+          operator: (assignment_operator)
+          value: (unquoted_string
+            (string_content)))))))

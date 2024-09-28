@@ -1,0 +1,92 @@
+================================================================================
+sections and subsections
+================================================================================
+
+[some section]
+    key = value
+    [[sub-section]]
+        [[[sub-sub-section]]]
+            another-key = 12
+[other root]
+    just a key = with a value
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)))
+    (sub_section_1
+      name: (nametag)
+      (sub_section_2
+        name: (nametag)
+        (setting
+          key: (key)
+          operator: (assignment_operator)
+          value: (integer)))))
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)))))
+
+================================================================================
+sections spacing
+================================================================================
+
+[some section]
+
+    key = value
+
+    [[sub-section]]
+
+
+        [[[sub-sub-section]]]
+
+            another-key = 12
+  [[[other subsub]]]
+    
+this key is in subsub = 99
+
+[other root]
+
+
+    just a key = with a value
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)))
+    (sub_section_1
+      name: (nametag)
+      (sub_section_2
+        name: (nametag)
+        (setting
+          key: (key)
+          operator: (assignment_operator)
+          value: (integer)))
+      (sub_section_2
+        name: (nametag)
+        (setting
+          key: (key)
+          operator: (assignment_operator)
+          value: (integer)))))
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)))))

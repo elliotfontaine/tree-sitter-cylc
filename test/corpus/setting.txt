@@ -1,6 +1,6 @@
-========
-Settings
-========
+================================================================================
+settings
+================================================================================
 
 [runtime]
     end = 100
@@ -12,7 +12,7 @@ Settings
     void =
     veritas = False #comment
 
----
+--------------------------------------------------------------------------------
 
 (workflow_configuration
   (top_section
@@ -25,7 +25,6 @@ Settings
       key: (key)
       operator: (assignment_operator)
       value: (unquoted_string
-        (string_content)
         (string_content)))
     (setting
       key: (key)
@@ -36,7 +35,6 @@ Settings
       operator: (assignment_operator)
       (jinja2_expression)
       value: (unquoted_string
-        (string_content)
         (string_content)))
     (setting
       key: (key)

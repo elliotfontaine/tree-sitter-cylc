@@ -1,6 +1,6 @@
-==================
-Include Statements
-==================
+================================================================================
+include statement
+================================================================================
 
 # Some header comment here. This is not an %include statement.
 %include "file.cylc"
@@ -9,18 +9,20 @@ Include Statements
 [other-root] # a comment here ?!
     just a key = with a value
 
----
+--------------------------------------------------------------------------------
 
 (workflow_configuration
   (comment)
   (include_statement
     directive: (include_directive)
-    path: (quoted_string))
+    path: (quoted_string
+      (string_content)))
   (top_section
     name: (nametag))
   (include_statement
     directive: (include_directive)
-    path: (quoted_string))
+    path: (quoted_string
+      (string_content)))
   (comment)
   (top_section
     name: (nametag)
@@ -29,5 +31,4 @@ Include Statements
       key: (key)
       operator: (assignment_operator)
       value: (unquoted_string
-        (string_content)
         (string_content)))))

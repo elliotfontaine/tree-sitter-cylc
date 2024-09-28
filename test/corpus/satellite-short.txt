@@ -1,7 +1,6 @@
-================
-Satellite short
-================
-
+================================================================================
+satellite short
+================================================================================
 #!Jinja2
 
 [meta]
@@ -14,7 +13,7 @@ Satellite short
     initial cycle point = 12
     final cycle point ={{N_DATASETS}}
     [[special_tasks]]
-        external-trigger = get_data("new dataset ready for processing. Total datasets: {{N_DATASETS}} ")
+        external-trigger = get_data("new dataset ready for processing.")
     [[graph]]
         R1 = prep => satsim & get_data # first cycle
         P1 = """
@@ -32,7 +31,7 @@ Satellite short
         [[[meta]]]
             title = clean the workflow output directories
 
----
+--------------------------------------------------------------------------------
 
 (workflow_configuration
   (jinja2_shebang)
@@ -42,15 +41,15 @@ Satellite short
       key: (key)
       operator: (assignment_operator)
       value: (unquoted_string
-        (string_content)
-        (string_content
-          (jinja2_statement)))))
+        (string_content)))
+    (jinja2_statement))
   (top_section
     name: (nametag)
     (setting
       key: (key)
       operator: (assignment_operator)
-      value: (quoted_string))
+      value: (quoted_string
+        (string_content)))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -65,68 +64,59 @@ Satellite short
         key: (key)
         operator: (assignment_operator)
         value: (unquoted_string
-          (string_content)
-          (string_content
-            (jinja2_expression)))))
+          (string_content))))
     (graph_section
       name: (nametag)
       (graph_setting
         key: (recurrence)
         operator: (assignment_operator)
         value: (unquoted_graph_string
-          (graph_task
-            (nametag))
-          (graph_arrow)
-          (graph_task
-            (nametag))
-          (graph_logical)
-          (graph_task
-            (nametag)))
+          (graph_string_content
+            (graph_task
+              name: (nametag))
+            (graph_arrow)
+            (graph_task
+              name: (nametag))
+            (graph_logical)
+            (graph_task
+              name: (nametag))))
         (comment))
       (graph_setting
         key: (recurrence)
         operator: (assignment_operator)
         value: (multiline_graph_string
-          (unquoted_graph_string
+          (graph_string_content
             (graph_task
-              (nametag)))
-          (unquoted_graph_string
-            (graph_arrow))
-          (unquoted_graph_string
+              name: (nametag))
+            (graph_arrow)
             (graph_task
-              (nametag)))
-          (unquoted_graph_string
-            (graph_arrow))
-          (unquoted_graph_string
+              name: (nametag))
+            (graph_arrow)
             (graph_task
-              (nametag)))
-          (unquoted_graph_string
-            (graph_arrow))
-          (unquoted_graph_string
+              name: (nametag))
+            (graph_arrow)
             (graph_task
-              (nametag)))
-          (comment)
-          (unquoted_graph_string
+              name: (nametag))
+            (comment)
             (graph_task
-              (nametag)
-              (intercycle_annotation
-                (recurrence))))
-          (unquoted_graph_string
-            (graph_arrow))
-          (unquoted_graph_string
+              name: (nametag)
+              intercycle: (intercycle_annotation
+                (recurrence)))
+            (graph_arrow)
             (graph_task
-              (nametag)))
-          (comment)))
+              name: (nametag))
+            (comment))))
       (graph_setting
         key: (recurrence)
         (jinja2_expression)
         operator: (assignment_operator)
         value: (unquoted_graph_string
+          (graph_string_content
           (graph_task
-            (nametag))
+            name: (nametag))
           (graph_arrow)
           (graph_task
-            (nametag)))
+            name: (nametag))))
         (comment))))
   (top_section
     name: (nametag)
@@ -143,5 +133,4 @@ Satellite short
           key: (key)
           operator: (assignment_operator)
           value: (unquoted_string
-            (string_content)
             (string_content)))))))
