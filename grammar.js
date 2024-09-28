@@ -63,8 +63,8 @@ module.exports = grammar({
     // used for section names + task/family names + task outputs / task parameters (in graph).
     nametag: (_) =>
       seq(
-        /[\p{L}\p{N}]+/, // First character: alphanumeric (possibly Unicode)
-        repeat(/[\p{L}\p{N} \t+%@_-]/), // Rest of the string: alphanumerical, spaces, or characters in -_+%@
+        /[\p{L}\p{N}_]+/, // First character: alphanumeric/Unicode or underscore (see cylc/cylc-flow#6288)
+        repeat(/[\p{L}\p{N} \t+%@_-]/),
       ),
 
     key: (_) => seq(/[\p{L}\p{N}]+/, repeat(/[\p{L}\p{N} \t_-]/)), // doesn't allow +@% for keys
