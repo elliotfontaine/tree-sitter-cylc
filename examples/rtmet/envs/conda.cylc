@@ -1,0 +1,47 @@
+#!Jinja2
+
+{% set conda_envs = {
+    'CONDA_TRFP': 'wf-trfp',
+    'CONDA_BINNER': 'wf-binner',
+    'CONDA_DATAMUNGING': 'wf-datamunging',
+    'CONDA_INFLUX': 'wf-influx',
+    'CONDA_OPENMS': 'wf-pyopenms',
+    } %}
+
+[scheduling]
+    [[graph]]
+{% if cfg__validate_conda_envs %}
+        R1/^ = validate_cfg => validate_conda => is_setup
+{% endif %}
+
+[runtime]
+
+{% for FAMILY, conda_env_name in conda_envs.items() %}
+    [[{{FAMILY}}]]
+        pre-script = """
+            set +eu
+            conda activate {{ conda_env_name }}
+            set -eu
+        """
+        [[[meta]]]
+            title = "{{ FAMILY }}"
+            description = "Conda environment activation: {{ conda_env_name }}"
+            categories = family task, conda
+{% endfor %}
+
+    [[validate_conda]]
+        script = """
+            >&2 echo "conda compare outputs errors to stdout. Check 'job.out' for errors."
+{% for conda_env_name in conda_envs.values() %}
+            echo "Checking conda environment: {{ conda_env_name }}"
+            conda compare \
+                ${CYLC_WORKFLOW_RUN_DIR}/envs/{{ conda_env_name }}.yml \
+                -n {{ conda_env_name }}
+{% endfor %}
+        """
+        [[[meta]]]
+            title = "Validate Conda Environments"
+            description = """
+                Check if the conda environments are up-to-date and all packages are present.
+            """
+            categories = family task, conda

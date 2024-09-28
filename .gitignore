@@ -11,6 +11,7 @@ build/
 *.log
 .yarn-cache/
 yarn.lock
+*.pyc
 #package-lock.json
 target/
 
