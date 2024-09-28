@@ -69,8 +69,8 @@ module.exports = grammar({
 
     key: (_) =>
       seq(
-        /[\p{L}\p{N}:!^$+_()/\._-]+/,
-        repeat(token.immediate(/ ?[\p{L}\p{N}:!^$+_()/\._-]/)),
+        /[\p{L}\p{N}:!^$+_()/._-]+/,
+        repeat(token.immediate(/ ?[\p{L}\p{N}:!^$+_()/._-]/)),
       ),
 
     boolean: (_) => token(seq(choice("True", "False"), repeat(/[ \t]/))),
