@@ -77,6 +77,8 @@ module.exports = grammar({
 
     assignment_operator: (_) => "=",
 
+    xtrigger_annotation: (_) => "@",
+
     datetime: (_) =>
       token(
         seq(
@@ -219,6 +221,7 @@ module.exports = grammar({
 
     graph_task: ($) =>
       seq(
+        optional($.xtrigger_annotation),
         $.nametag,
         optional($.task_parameter),
         optional($.intercycle_annotation),
