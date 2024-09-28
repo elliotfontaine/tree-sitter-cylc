@@ -192,30 +192,44 @@ module.exports = grammar({
     graph_setting: ($) =>
       seq(
         field("key", $.recurrence),
-        field("operator", $.assignment_operator),
-        field(
-          "value",
-          choice($.multiline_graph_string, $.unquoted_graph_string),
+        optional(
+          seq(
+            field("operator", $.assignment_operator),
+            field(
+              "value",
+              optional(
+                choice($.multiline_graph_string, $.unquoted_graph_string),
+              ),
+            ),
+          ),
         ),
         $._line_return,
       ),
 
     unquoted_graph_string: ($) =>
-      prec.left(
+      alias(
         seq(repeat1(choice($.graph_logical, $.graph_task, $.graph_arrow))),
+        $.graph_string_content,
       ),
 
     multiline_graph_string: ($) =>
       choice(
         seq(
           field("quotes_open", '"""'),
-          repeat($.unquoted_graph_string),
+          alias($._mgs_content, $.graph_string_content),
           field("quotes_close", '"""'),
         ),
         seq(
           field("quotes_open", "'''"),
-          repeat($.unquoted_graph_string),
+          alias($._mgs_content, $.graph_string_content),
           field("quotes_close", "'''"),
+        ),
+      ),
+
+    _mgs_content: ($) =>
+      seq(
+        repeat1(
+          choice($.graph_logical, $.graph_task, $.graph_arrow, $._line_return),
         ),
       ),
 
