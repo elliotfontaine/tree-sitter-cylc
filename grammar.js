@@ -168,7 +168,7 @@ module.exports = grammar({
       seq(
         field("brackets_open", "[["),
         optional(field("name", $.nametag)),
-        repeat($.task_parameter),
+        repeat(field("parameter", $.task_parameter)),
         field("brackets_close", "]]"),
         $._line_return,
         optional(repeat(choice($.setting, $._line_return))),
@@ -251,8 +251,16 @@ module.exports = grammar({
         token.immediate("<"),
         optional(
           choice(
-            seq($.nametag, repeat(seq(token.immediate(","), $.nametag))),
-            seq($.nametag, optional(seq(token.immediate("="), $.nametag))),
+            seq(
+              field("name", $.nametag),
+              repeat(seq(token.immediate(","), field("name", $.nametag))),
+            ),
+            seq(
+              field("name", $.nametag),
+              optional(
+                seq(token.immediate("="), field("selection", $.nametag)),
+              ),
+            ),
           ),
         ),
         token.immediate(">"),
@@ -261,14 +269,18 @@ module.exports = grammar({
     task_output: ($) =>
       choice(
         seq(
-          seq(token.immediate(":"), $.nametag),
-          optional(token.immediate("?")),
+          seq(token.immediate(":"), field("name", $.nametag)),
+          optional(field("optional_annotation", token.immediate("?"))),
         ),
-        token.immediate("?"),
+        field("optional_annotation", token.immediate("?")),
       ),
 
     intercycle_annotation: ($) =>
-      seq(token.immediate("["), optional($.recurrence), token.immediate("]")),
+      seq(
+        token.immediate("["),
+        optional(field("recurrence", $.recurrence)),
+        token.immediate("]"),
+      ),
 
     setting: ($) =>
       seq(

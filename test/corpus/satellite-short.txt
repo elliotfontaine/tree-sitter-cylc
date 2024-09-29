@@ -101,7 +101,7 @@ satellite short
             (graph_task
               name: (nametag)
               intercycle: (intercycle_annotation
-                (recurrence)))
+                recurrence: (recurrence)))
             (graph_arrow)
             (graph_task
               name: (nametag))
