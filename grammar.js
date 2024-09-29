@@ -259,7 +259,13 @@ module.exports = grammar({
       ),
 
     task_output: ($) =>
-      seq(token.immediate(":"), $.nametag, optional(token.immediate("?"))),
+      choice(
+        seq(
+          seq(token.immediate(":"), $.nametag),
+          optional(token.immediate("?")),
+        ),
+        token.immediate("?"),
+      ),
 
     intercycle_annotation: ($) =>
       seq(token.immediate("["), optional($.recurrence), token.immediate("]")),
