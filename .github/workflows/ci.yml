@@ -7,6 +7,7 @@ on:
       - grammar.js
       - src/**
       - test/**
+      - examples/**
       - bindings/**
       - binding.gyp
   pull_request:
@@ -14,6 +15,7 @@ on:
       - grammar.js
       - src/**
       - test/**
+      - examples/**
       - bindings/**
       - binding.gyp
 
@@ -39,8 +41,8 @@ jobs:
           git clone https://github.com/cylc/cylc-flow examples/cylc-flow --single-branch --depth=1 --filter=blob:none
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
-        with:
-          test-rust: ${{runner.os == 'Linux'}}
+        # with:
+        #   test-rust: ${{runner.os == 'Linux'}} # bindings not yet written
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:

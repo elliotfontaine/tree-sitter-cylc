@@ -1,8 +1,8 @@
-name: Lint
+name: Lint Grammar
 
 on:
   push:
-    branches: [main]
+    branches: ["*"]
     paths:
       - grammar.js
   pull_request:
