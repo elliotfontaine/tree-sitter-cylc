@@ -168,7 +168,7 @@ module.exports = grammar({
       seq(
         field("brackets_open", "[["),
         optional(field("name", $.nametag)),
-        optional($.task_parameter),
+        repeat($.task_parameter),
         field("brackets_close", "]]"),
         $._line_return,
         optional(repeat(choice($.setting, $._line_return))),
@@ -241,13 +241,22 @@ module.exports = grammar({
       seq(
         optional(field("xtrigger", $.xtrigger_annotation)),
         field("name", $.nametag),
-        optional(field("parameter", $.task_parameter)),
+        repeat(field("parameter", $.task_parameter)),
         optional(field("intercycle", $.intercycle_annotation)),
         optional(field("output", $.task_output)),
       ),
 
     task_parameter: ($) =>
-      seq(token.immediate("<"), optional($.nametag), token.immediate(">")),
+      seq(
+        token.immediate("<"),
+        optional(
+          choice(
+            seq($.nametag, repeat(seq(token.immediate(","), $.nametag))),
+            seq($.nametag, optional(seq(token.immediate("="), $.nametag))),
+          ),
+        ),
+        token.immediate(">"),
+      ),
 
     task_output: ($) =>
       seq(token.immediate(":"), $.nametag, optional(token.immediate("?"))),
