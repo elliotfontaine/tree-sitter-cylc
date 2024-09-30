@@ -38,14 +38,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up tree-sitter
         uses: tree-sitter/setup-action/cli@v1
-      - name: Set up examples
-        run: |-
-          git clone https://github.com/cylc/cylc-flow examples/cylc-flow --single-branch --depth=1 --filter=blob:none
-          rm examples/cylc-flow/tests/{f,i,k,u}
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
         # with:
         #   test-rust: ${{runner.os == 'Linux'}} # bindings not yet written
+      - name: Set up examples
+        run: |-
+          git clone https://github.com/cylc/cylc-flow examples/cylc-flow --single-branch --depth=1 --filter=blob:none
+          rm examples/cylc-flow/tests/{f,i,k,u}
+          rm examples/cylc-flow/etc/syntax/reference-files/*.cylc
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:
