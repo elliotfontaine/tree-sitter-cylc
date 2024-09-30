@@ -162,19 +162,22 @@ jinja2 in intercycle annotation
         (unquoted_graph_string
           (graph_string_content
             (graph_task
-              (nametag)))))
+              (task_name
+                (nametag))))))
       (graph_setting
         (recurrence)
         (assignment_operator)
         (unquoted_graph_string
           (graph_string_content
             (graph_task
-              (nametag)
+              (task_name
+                (nametag))
               (intercycle_annotation
                 (jinja2_expression)))
             (graph_arrow)
             (graph_task
-              (nametag))))))))
+              (task_name
+                (nametag)))))))))
 
 =============================================================================
 jinja2 as setting key
@@ -235,7 +238,8 @@ jinja2 as graph setting key
         (unquoted_graph_string
           (graph_string_content
             (graph_task
-              (nametag)
+              (task_name
+                (nametag))
               (intercycle_annotation
                 (recurrence)))))))))
 

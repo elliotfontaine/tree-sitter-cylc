@@ -22,6 +22,8 @@ module.exports = grammar({
 
   conflicts: ($) => [
     [$.top_section],
+    [$.runtime_section],
+    [$.task_section],
     [$.sub_section_1],
     [$.graph_section],
     [$.sub_section_2],
@@ -35,7 +37,8 @@ module.exports = grammar({
         optional($.jinja2_shebang),
         repeat(
           choice(
-            seq($.top_section),
+            $.top_section,
+            $.runtime_section,
             seq($.include_statement, $._line_return),
             $._line_return,
           ),
@@ -221,7 +224,9 @@ module.exports = grammar({
         field("path", choice($.quoted_string, $.unquoted_string)),
       ),
 
-    section_name: ($) => seq($.nametag, repeat(seq(",", $.nametag))),
+    section_name: ($) => $.nametag,
+
+    namespace: ($) => seq($.task_name, repeat(seq(",", $.task_name))),
 
     top_section: ($) =>
       seq(
@@ -239,7 +244,35 @@ module.exports = grammar({
       seq(
         field("brackets_open", "[["),
         optional(field("name", $.section_name)),
-        repeat(field("parameter", $.task_parameter)),
+        field("brackets_close", "]]"),
+        $._line_return,
+        optional(repeat(choice($.setting, $._line_return))),
+        optional(repeat(choice($.sub_section_2, $._line_return))),
+      ),
+
+    sub_section_2: ($) =>
+      seq(
+        field("brackets_open", "[[["),
+        optional(field("name", $.section_name)),
+        field("brackets_close", "]]]"),
+        $._line_return,
+        optional(repeat(choice($.setting, $._line_return))),
+      ),
+
+    runtime_section: ($) =>
+      seq(
+        field("brackets_open", "["),
+        field("name", alias("runtime", $.section_name)),
+        field("brackets_close", "]"),
+        $._line_return,
+        optional(repeat(choice($.setting, $._line_return))),
+        optional(repeat(choice($.task_section, $._line_return))),
+      ),
+
+    task_section: ($) =>
+      seq(
+        field("brackets_open", "[["),
+        optional(field("name", $.namespace)),
         field("brackets_close", "]]"),
         $._line_return,
         optional(repeat(choice($.setting, $._line_return))),
@@ -253,15 +286,6 @@ module.exports = grammar({
         field("brackets_close", "]]"),
         $._line_return,
         optional(repeat(choice($.graph_setting, $._line_return))),
-      ),
-
-    sub_section_2: ($) =>
-      seq(
-        field("brackets_open", "[[["),
-        optional(field("name", $.section_name)),
-        field("brackets_close", "]]]"),
-        $._line_return,
-        optional(repeat(choice($.setting, $._line_return))),
       ),
 
     graph_setting: ($) =>
@@ -361,15 +385,17 @@ module.exports = grammar({
             field("suicide", $.suicide_annotation),
           ),
         ),
-        field("name", $.nametag),
-        repeat(field("parameter", $.task_parameter)),
+        field("name", $.task_name),
         optional(field("intercycle", $.intercycle_annotation)),
         optional(field("output", $.task_output)),
       ),
 
+    task_name: ($) => prec.right(repeat1(choice($.nametag, $.task_parameter))),
+
     task_parameter: ($) =>
       seq(
-        token.immediate("<"),
+        // token.immediate("<"),
+        token("<"),
         optional(
           choice(
             seq(
@@ -384,7 +410,8 @@ module.exports = grammar({
             ),
           ),
         ),
-        token.immediate(">"),
+        // token.immediate(">")
+        token(">"),
       ),
 
     task_output: ($) =>

@@ -13,7 +13,7 @@
 
 (_
   brackets_open: _ @operator
-  name: (section_name)? @title
+  name: (_)? @title
   brackets_close: _ @operator)
 
 (graph_section

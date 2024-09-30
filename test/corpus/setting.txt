@@ -2,13 +2,15 @@
 settings
 ================================================================================
 
-[runtime]
+[section]
     end = 100
+    room = 100b
     script = print('Hello, World!')
     script_file = {{ script_file }}
     script_file = {{ script_file }}.txt
     start = 0
     is_verbose = True
+    is_verbose_with_whitespaces = True   
     void =
     veritas = False #comment
 
@@ -30,6 +32,11 @@ settings
     (setting
       key: (key)
       operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
       (jinja2_expression))
     (setting
       key: (key)
@@ -41,6 +48,10 @@ settings
       key: (key)
       operator: (assignment_operator)
       value: (integer))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (boolean))
     (setting
       key: (key)
       operator: (assignment_operator)

@@ -76,13 +76,16 @@ satellite short
         value: (unquoted_graph_string
           (graph_string_content
             (graph_task
-              name: (nametag))
+              name: (task_name
+                (nametag)))
             (graph_arrow)
             (graph_task
-              name: (nametag))
+              name: (task_name
+                (nametag)))
             (graph_logical)
             (graph_task
-              name: (nametag))))
+              name: (task_name
+                (nametag)))))
         (comment))
       (graph_setting
         key: (recurrence)
@@ -90,24 +93,30 @@ satellite short
         value: (multiline_graph_string
           (graph_string_content
             (graph_task
-              name: (nametag))
+              name: (task_name
+                (nametag)))
             (graph_arrow)
             (graph_task
-              name: (nametag))
+              name: (task_name
+                (nametag)))
             (graph_arrow)
             (graph_task
-              name: (nametag))
+              name: (task_name
+                (nametag)))
             (graph_arrow)
             (graph_task
-              name: (nametag))
+              name: (task_name
+                (nametag)))
             (comment)
             (graph_task
-              name: (nametag)
+              name: (task_name
+                (nametag))
               intercycle: (intercycle_annotation
                 recurrence: (recurrence)))
             (graph_arrow)
             (graph_task
-              name: (nametag))
+              name: (task_name
+                (nametag)))
             (comment))))
       (graph_setting
         key: (recurrence)
@@ -116,17 +125,19 @@ satellite short
         value: (unquoted_graph_string
           (graph_string_content
             (graph_task
-              name: (nametag))
+              name: (task_name
+                (nametag)))
             (graph_arrow)
             (graph_task
-              name: (nametag))))
+              name: (task_name
+                (nametag)))))
         (comment))))
-  (top_section
-    name: (section_name
-      (nametag))
-    (sub_section_1
-      name: (section_name
-        (nametag))
+  (runtime_section
+    name: (section_name)
+    (task_section
+      name: (namespace
+        (task_name
+          (nametag)))
       (setting
         key: (key)
         operator: (assignment_operator)

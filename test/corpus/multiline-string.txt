@@ -86,7 +86,7 @@ multiline string on a single line (2)
 multiline string with lonely quotes (1)
 ================================================================================
 
-[runtime]
+[runtime_]
     [[root]]
         env-script = '''
             $(eval rose task-env)
@@ -115,7 +115,7 @@ multiline string with lonely quotes (1)
 multiline string with lonely quotes (2)
 ================================================================================
 
-[runtime]
+[runtime_]
     [[root]]
         env-script = """
             $(eval rose task-env)
@@ -215,7 +215,7 @@ multiline string with "line continuation"
 ================================================================================
 
 # treated as simply text of the string
-[runtime]
+[runtime_]
     [[convert_raw]]
         script = """
             thermorawfileparser
@@ -245,7 +245,7 @@ multiline string with "line continuation"
 multiline string with "line continuation" with another \ just before
 ================================================================================
 
-[runtime]
+[runtime_]
     [[convert_raw]]
         script = '''
             thermorawfileparser

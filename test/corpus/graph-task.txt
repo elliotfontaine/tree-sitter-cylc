@@ -21,16 +21,19 @@ space in intercycle annotation
         (unquoted_graph_string
           (graph_string_content
             (graph_task
-              (nametag)))))
+              (task_name
+                (nametag))))))
       (graph_setting
         (recurrence)
         (assignment_operator)
         (unquoted_graph_string
           (graph_string_content
             (graph_task
-              (nametag)
+              (task_name
+                (nametag))
               (intercycle_annotation
                 (recurrence)))
             (graph_arrow)
             (graph_task
-              (nametag))))))))
+              (task_name
+              (nametag)))))))))
