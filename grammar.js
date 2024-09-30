@@ -336,7 +336,7 @@ module.exports = grammar({
       seq(
         token.immediate("["),
         optional(field("recurrence", $.recurrence)),
-        token.immediate("]"),
+        token("]"),
       ),
 
     setting: ($) =>

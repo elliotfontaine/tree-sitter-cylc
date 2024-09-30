@@ -88,3 +88,39 @@ jinja2 (statement, expression, comment)
         key: (key)
         operator: (assignment_operator)
         (jinja2_expression)))))
+
+================================================================================
+jinja2 in intercycle annotation
+================================================================================
+
+[scheduling]
+    [[graph]]
+        R1 = my_task
+        P1 = my_task[ {{recurrence}} ] => my_task
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+      (top_section
+        (nametag)
+        (graph_section
+          (nametag)
+          (graph_setting
+            (recurrence)
+            (assignment_operator)
+            (unquoted_graph_string
+              (graph_string_content
+                (graph_task
+                  (nametag)))))
+          (graph_setting
+            (recurrence)
+            (assignment_operator)
+            (unquoted_graph_string
+              (graph_string_content
+                (graph_task
+                  (nametag)
+                  (intercycle_annotation
+                    (jinja2_expression)))
+                (graph_arrow)
+                (graph_task
+                  (nametag))))))))
