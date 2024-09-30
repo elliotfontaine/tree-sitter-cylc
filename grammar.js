@@ -85,7 +85,7 @@ module.exports = grammar({
 
     include_directive: (_) => "%include",
 
-    recurrence: (_) => token(repeat1(choice(/[A-Z0-9/^$+\-,()!]+/, "min"))),
+    recurrence: (_) => token(repeat1(choice(/[A-Z0-9/^$+\-,()!:]+/, "min"))),
 
     graph_logical: (_) => token(choice("&", "|")),
 
