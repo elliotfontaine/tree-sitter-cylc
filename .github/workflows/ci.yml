@@ -47,6 +47,7 @@ jobs:
           git clone https://github.com/cylc/cylc-flow examples/cylc-flow --single-branch --depth=1 --filter=blob:none
           rm examples/cylc-flow/tests/{f,i,k,u}
           rm examples/cylc-flow/etc/syntax/reference-files/*.cylc
+          xargs -a .github/workflows/parse-blacklist.txt rm
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:

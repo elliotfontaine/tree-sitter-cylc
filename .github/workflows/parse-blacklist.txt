@@ -1,0 +1,17 @@
+examples/cylc-flow/tests/flakyfunctional/restart/lib/flow-runtime-restart.cylc
+examples/cylc-flow/tests/functional/broadcast/10-file-1/broadcast.cylc
+examples/cylc-flow/tests/functional/broadcast/11-file-2/broadcast-1.cylc
+examples/cylc-flow/tests/functional/broadcast/12-file-stdin/broadcast.cylc
+examples/cylc-flow/tests/functional/broadcast/13-file-cancel/broadcast-1.cylc
+examples/cylc-flow/tests/functional/cylc-combination-scripts/vr_workflow_fail_on_play/flow.cylc
+examples/cylc-flow/tests/functional/jinja2/cylc-include-badsyntax/flow-includeme.cylc
+examples/cylc-flow/tests/functional/jinja2/include/runtime.cylc
+examples/cylc-flow/tests/functional/jinja2/include-badsyntax/runtime-bad.cylc
+examples/cylc-flow/tests/functional/jinja2/include-incomplete/runtime-incomplete.cylc
+examples/cylc-flow/tests/functional/validate/02-scripting-quotes/flow.cylc
+examples/cylc-flow/tests/functional/validate/03-incomplete-quotes/flow.cylc
+examples/cylc-flow/tests/functional/validate/40-jinja2-template-syntax-error-main/flow.cylc
+examples/cylc-flow/tests/functional/validate/49-jinja2-undefined-error/flow.cylc
+examples/cylc-flow/tests/functional/workflow-state/02-validate-blank-command-scripting/flow.cylc
+examples/cylc-flow/tests/functional/workflow-state/11-multi/flow.cylc
+examples/cylc-flow/tests/functional/workflow-state/polling/flow.cylc
