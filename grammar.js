@@ -185,7 +185,7 @@ module.exports = grammar({
     include_statement: ($) =>
       seq(
         field("directive", $.include_directive),
-        field("path", $.quoted_string),
+        field("path", choice($.quoted_string, $.unquoted_string)),
       ),
 
     top_section: ($) =>

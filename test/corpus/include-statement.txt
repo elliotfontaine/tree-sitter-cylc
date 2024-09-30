@@ -6,8 +6,6 @@ include statement
 %include "file.cylc"
 [some-section]
     %include "file2.cylc" # tabulation is ignored -> Is root-leveled.
-[other-root] # a comment here ?!
-    just a key = with a value
 
 --------------------------------------------------------------------------------
 
@@ -23,12 +21,20 @@ include statement
     directive: (include_directive)
     path: (quoted_string
       (string_content)))
+  (comment))
+
+================================================================================
+include statement with unquoted path
+================================================================================
+
+# Some header comment here. This is not an %include statement.
+%include file.cylc
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
   (comment)
-  (top_section
-    name: (nametag)
-    (comment)
-    (setting
-      key: (key)
-      operator: (assignment_operator)
-      value: (unquoted_string
-        (string_content)))))
+  (include_statement
+    (include_directive)
+      (unquoted_string
+        (string_content))))
