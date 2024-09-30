@@ -122,6 +122,8 @@ module.exports = grammar({
 
     xtrigger_annotation: (_) => "@",
 
+    suicide_annotation: (_) => "!",
+
     // For $.quoted_tring
     //   - Match any character except corresponding quote, newline, or backslash
     //   - Match escaped corresponding quote.
@@ -327,7 +329,12 @@ module.exports = grammar({
 
     graph_task: ($) =>
       seq(
-        optional(field("xtrigger", $.xtrigger_annotation)),
+        optional(
+          choice(
+            field("xtrigger", $.xtrigger_annotation),
+            field("suicide", $.suicide_annotation),
+          ),
+        ),
         field("name", $.nametag),
         repeat(field("parameter", $.task_parameter)),
         optional(field("intercycle", $.intercycle_annotation)),

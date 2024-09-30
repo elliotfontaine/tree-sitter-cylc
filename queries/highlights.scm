@@ -43,6 +43,7 @@
 
 (graph_task
   xtrigger: _? @property
+  suicide: _? @property
   name: _ @emphasis)
 
 (task_parameter
