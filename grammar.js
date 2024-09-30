@@ -89,6 +89,8 @@ module.exports = grammar({
 
     graph_logical: (_) => token(choice("&", "|")),
 
+    graph_parenthesis: (_) => token(choice("(", ")")),
+
     graph_arrow: (_) => "=>",
 
     comment: (_) => seq("#", /[^\r\n]*/),
@@ -285,7 +287,16 @@ module.exports = grammar({
 
     unquoted_graph_string: ($) =>
       alias(
-        seq(repeat1(choice($.graph_logical, $.graph_task, $.graph_arrow))),
+        seq(
+          repeat1(
+            choice(
+              $.graph_logical,
+              $.graph_task,
+              $.graph_arrow,
+              $.graph_parenthesis,
+            ),
+          ),
+        ),
         $.graph_string_content,
       ),
 
@@ -304,7 +315,16 @@ module.exports = grammar({
       ),
 
     _qgs_content: ($) =>
-      seq(repeat1(choice($.graph_logical, $.graph_task, $.graph_arrow))),
+      seq(
+        repeat1(
+          choice(
+            $.graph_logical,
+            $.graph_task,
+            $.graph_arrow,
+            $.graph_parenthesis,
+          ),
+        ),
+      ),
 
     multiline_graph_string: ($) =>
       choice(
@@ -323,7 +343,13 @@ module.exports = grammar({
     _mgs_content: ($) =>
       seq(
         repeat1(
-          choice($.graph_logical, $.graph_task, $.graph_arrow, $._line_return),
+          choice(
+            $.graph_logical,
+            $.graph_task,
+            $.graph_arrow,
+            $.graph_parenthesis,
+            $._line_return,
+          ),
         ),
       ),
 

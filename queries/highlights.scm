@@ -36,6 +36,7 @@
 [
   (graph_logical) 
   (graph_arrow)
+  (graph_parenthesis)
 ] @operator
 
 (intercycle_annotation
