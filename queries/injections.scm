@@ -13,7 +13,7 @@
 ; See this proposal:
 ; https://github.com/tree-sitter/tree-sitter/issues/3625
 ((sub_section_2
-  name: (nametag) @section_name (#match? @section_name "environment")
+  name: (_) @section_name (#match? @section_name "environment")
   (setting) @content)
  (#set! "language" "bash")
  (#set! combined))

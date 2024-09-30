@@ -11,19 +11,9 @@
 
 (comment) @comment
 
-(top_section
+(_
   brackets_open: _ @operator
-  name: (_)? @title
-  brackets_close: _ @operator)
-
-(sub_section_1
-  brackets_open: _ @operator
-  name: (_)? @title
-  brackets_close: _ @operator)
-
-(sub_section_2
-  brackets_open: _ @operator
-  name: (_)? @title
+  name: (section_name)? @title
   brackets_close: _ @operator)
 
 (graph_section
@@ -33,7 +23,11 @@
 
 (graph_setting
   key: (_) @number
-  operator: (_) @operator)
+  operator: (_)? @operator)
+
+(quoted_graph_string
+  quotes_open: _ @string
+  quotes_close: _ @string)
 
 (multiline_graph_string
   quotes_open: _ @string
@@ -67,7 +61,7 @@
     "?"? @punctuation)
 
 (setting
-  key: (_) @variable
+  key: (key) @variable
   operator: (_)? @operator
   value: [
     (unquoted_string) @string
