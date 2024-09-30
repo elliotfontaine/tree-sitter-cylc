@@ -51,40 +51,14 @@ module.exports = grammar({
     jinja2_shebang: (_) => "#!Jinja2",
 
     jinja2_expression: (_) =>
-      token(
-        prec(
-          PREC.jinja,
-          seq(
-            "{{",
-            /([^{}]|\{[^{]|\}[^}])*/, // Anything except {{ or }}
-            "}}",
-          ),
-        ),
-      ),
+      token(prec(PREC.jinja, seq("{{", /([^{}]|\{[^{]|\}[^}])*/, "}}"))),
+    // regex: Anything except {{ or }}
 
     jinja2_statement: (_) =>
-      token(
-        prec(
-          PREC.jinja,
-          seq(
-            "{%",
-            /([^%{]|%[^}]|\{[^%])*/, // Anything except {% or %}
-            "%}",
-          ),
-        ),
-      ),
+      token(prec(PREC.jinja, seq("{%", /([^%{]|%[^}]|\{[^%])*/, "%}"))),
 
     jinja2_comment: (_) =>
-      token(
-        prec(
-          PREC.jinja,
-          seq(
-            "{#",
-            /([^#{]|#[^}]|\{[^#])*/, // Anything except {# or #}
-            "#}",
-          ),
-        ),
-      ),
+      token(prec(PREC.jinja, seq("{#", /([^#{]|#[^}]|\{[^#])*/, "#}"))),
 
     include_directive: (_) => "%include",
 
@@ -99,13 +73,9 @@ module.exports = grammar({
     comment: (_) => seq("#", /[^\r\n]*/),
 
     // used for section names + task/family names + task outputs / task parameters (in graph).
-    nametag: (_) =>
-      seq(
-        // @ts-ignore
-        /[\p{L}\p{N}_]+/, // First character: alphanumeric/Unicode or underscore (see cylc/cylc-flow#6288)
-        // @ts-ignore
-        repeat(/[\p{L}\p{N} \t+%@_-]/),
-      ),
+    // First character: alphanumeric/Unicode or underscore (see cylc/cylc-flow#6288)
+    // @ts-ignore
+    nametag: (_) => seq(/[\p{L}\p{N}_]+/, repeat(/[\p{L}\p{N} \t+%@_-]/)),
 
     key: (_) =>
       seq(
@@ -130,9 +100,9 @@ module.exports = grammar({
     suicide_annotation: (_) => "!",
 
     // For $.quoted_tring
-    //   - Match any character except corresponding quote, newline, or backslash
-    //   - Match escaped corresponding quote.
-    //   - Match backslash except if followed by newline (because of $.line_continuation precedence)
+    //   1. Match any character except corresponding quote, newline, or backslash
+    //   2. Match escaped corresponding quote.
+    //   3. Match backslash (except if followed by newline because of $.line_continuation precedence)
     _qs_d_content: (_) =>
       repeat1(
         choice(token(prec(PREC.quoted_string, /[^"\\\r\n]/)), /\\"/, /\\/),
@@ -143,9 +113,9 @@ module.exports = grammar({
       ),
 
     // For $.multiline_string
-    //   - Match anything except the corresponding quotes
-    //   - Match 1 quote, if not followed by another quote
-    //   - Match 2 quotes, if not followed by a third one
+    //   1. Match anything except the corresponding quotes
+    //   2. Match 1 quote, if not followed by another quote
+    //   3. Match 2 quotes, if not followed by a third one
     _ms_d_content: (_) =>
       repeat1(
         choice(token(prec(PREC.quoted_string, /[^"]/)), /"[^"]/, /""[^"]/),
