@@ -1,15 +1,22 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
+const PREC = {
+  line_continuation: 2, // see $._qs_d_content
+  quoted_string: 3, // for precedence over comments
+  jinja: 10, // absolute beast. It's templating after all.
+};
+
 module.exports = grammar({
   name: "cylc",
 
   extras: ($) => [
     // /[ \t\f\uFEFF\u2060\u200B]/, // breaks line returns requirements
-    /[ \t]/, // Whitespaces
+    /[ \t]/,
     $.jinja2_expression,
     $.jinja2_statement,
     $.jinja2_comment,
+    $.line_continuation,
     $.comment,
   ],
 
@@ -40,11 +47,12 @@ module.exports = grammar({
 
     jinja2_shebang: (_) => "#!Jinja2",
 
-    jinja2_expression: (_) => token(prec(10, seq("{{", /[^{}]*/, "}}"))),
+    jinja2_expression: (_) =>
+      token(prec(PREC.jinja, seq("{{", /[^{}]*/, "}}"))),
 
-    jinja2_statement: (_) => token(prec(10, seq("{%", /[^{%]*/, "%}"))),
+    jinja2_statement: (_) => token(prec(PREC.jinja, seq("{%", /[^{%]*/, "%}"))),
 
-    jinja2_comment: (_) => token(prec(10, seq("{#", /[^{#]*/, "#}"))),
+    jinja2_comment: (_) => token(prec(PREC.jinja, seq("{#", /[^{#]*/, "#}"))),
 
     include_directive: (_) => "%include",
 
@@ -79,9 +87,37 @@ module.exports = grammar({
 
     _line_return: (_) => /\r?\n/,
 
+    line_continuation: (_) => token(prec(PREC.line_continuation, /\\\r?\n/)),
+
     assignment_operator: (_) => "=",
 
     xtrigger_annotation: (_) => "@",
+
+    // For $.quoted_tring
+    //   - Match any character except corresponding quote, newline, or backslash
+    //   - Match escaped corresponding quote.
+    //   - Match backslash except if followed by newline (because of $.line_continuation precedence)
+    _qs_d_content: (_) =>
+      repeat1(
+        choice(token(prec(PREC.quoted_string, /[^"\\\r\n]/)), /\\"/, /\\/),
+      ),
+    _qs_s_content: (_) =>
+      repeat1(
+        choice(token(prec(PREC.quoted_string, /[^'\\\r\n]/)), /\\[^\r\n]/),
+      ),
+
+    // For $.multiline_string
+    //   - Match anything except the corresponding quotes
+    //   - Match 1 quote, if not followed by another quote
+    //   - Match 2 quotes, if not followed by a third one
+    _ms_d_content: (_) =>
+      repeat1(
+        choice(token(prec(PREC.quoted_string, /[^"]/)), /"[^"]/, /""[^"]/),
+      ),
+    _ms_s_content: (_) =>
+      repeat1(
+        choice(token(prec(PREC.quoted_string, /[^']/)), /'[^']/, /''[^']/),
+      ),
 
     datetime: (_) =>
       token(
@@ -332,57 +368,28 @@ module.exports = grammar({
 
     quoted_string: ($) =>
       choice(
-        // Match double quotes
         seq(
           field("quotes_open", '"'),
-          alias(
-            repeat1(
-              choice(
-                /[^"\\\n]/, // Match any character except double quotes, backslashes, or newlines
-                /\\./, // Match escaped characters (e.g., \" or \')
-                /\\\n\s*/, // Match a backslash followed by a newline and optional spaces (line continuation)
-              ),
-            ),
-            $.string_content,
-          ),
+          alias($._qs_d_content, $.string_content),
           field("quotes_close", '"'),
         ),
-        // Match single quotes
         seq(
           field("quotes_open", "'"),
-          alias(repeat(choice(/[^'\\\n]/, /\\./, /\\\n\s*/)), $.string_content),
+          alias($._qs_s_content, $.string_content),
           field("quotes_close", "'"),
         ),
       ),
 
     multiline_string: ($) =>
       choice(
-        // Triple double quotes
         seq(
           field("quotes_open", '"""'),
-          alias(
-            repeat(
-              choice(
-                /[^"\\]/, // Any character except double quotes or backslashes
-                /\\./, // Escaped sequences (e.g., \n, \t, \")
-                /"[^"]/, // Allow a single quote, not followed by another quote
-                /""[^"]/, // Allow one or two quotes inside the string
-                /\\\s*\n/, // Allow backslashes followed by optional spaces and a newline (for line continuation)
-              ),
-            ),
-            $.string_content,
-          ),
+          alias($._ms_d_content, $.string_content),
           field("quotes_close", '"""'),
         ),
-        // Triple single quotes
         seq(
           field("quotes_open", "'''"),
-          alias(
-            token(
-              repeat(choice(/[^'\\]/, /\\./, /'[^']/, /''[^']/, /\\\s*\n/)),
-            ),
-            $.string_content,
-          ),
+          alias($._ms_s_content, $.string_content),
           field("quotes_close", "'''"),
         ),
       ),

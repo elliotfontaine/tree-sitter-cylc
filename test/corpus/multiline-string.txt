@@ -1,18 +1,12 @@
 ================================================================================
-multi-line string
+multiline string (1)
 ================================================================================
 
 [some-section]
-    key = """
+    key = '''
         This line
         is written
         over multiple lines
-    """
-    another-key = """What is 'the ''point then?!"""
-[other-root]
-    just a key = '''
-        with a ''
-        value
     '''
 
 --------------------------------------------------------------------------------
@@ -24,12 +18,22 @@ multi-line string
       key: (key)
       operator: (assignment_operator)
       value: (multiline_string
-        (string_content)))
-    (setting
-      key: (key)
-      operator: (assignment_operator)
-      value: (multiline_string
-        (string_content))))
+        (string_content)))))
+
+================================================================================
+multiline string (2)
+================================================================================
+
+[some-section]
+    key = """
+        This line
+        is written
+        over multiple lines
+    """
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
   (top_section
     name: (nametag)
     (setting
@@ -39,20 +43,54 @@ multi-line string
         (string_content)))))
 
 ================================================================================
-multi-line string (2)
+multiline string on a single line (1)
+================================================================================
+
+[some-section]
+    another-key = '''What is the point then?!'''
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content)))))
+
+================================================================================
+multiline string on a single line (2)
+================================================================================
+
+[some-section]
+    another-key = """What is the point then?!"""
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content)))))
+
+================================================================================
+multiline string with lonely quotes (1)
 ================================================================================
 
 [runtime]
-    [[convert_raw]]
-        script = """
-            thermorawfileparser
-                --format=${format} \
-                --input=${input} \
-                --output=${output} \
-                --metadata=${metadata}
-        """
-        [[[meta]]]
-            title = Convert Raw
+    [[root]]
+        env-script = '''
+            $(eval rose task-env)
+            if [ '${CYLC_TASK_CYCLE_POINT}' != '0' ]; then
+                mkdir -p '${ROSE_DATAC}/dataflow'
+                mkdir -p '${ROSE_DATAC}/qc'
+            fi
+        '''
 
 --------------------------------------------------------------------------------
 
@@ -65,17 +103,10 @@ multi-line string (2)
         key: (key)
         operator: (assignment_operator)
         value: (multiline_string
-          (string_content)))
-      (sub_section_2
-        name: (nametag)
-        (setting
-          key: (key)
-          operator: (assignment_operator)
-          value: (unquoted_string
-            (string_content)))))))
+          (string_content))))))
 
 ================================================================================
-multi-line string (3)
+multiline string with lonely quotes (2)
 ================================================================================
 
 [runtime]
@@ -87,8 +118,6 @@ multi-line string (3)
                 mkdir -p "${ROSE_DATAC}/qc"
             fi
         """
-        [[[environment]]]
-            USER_CONFIG_DIR = ${CYLC_WORKFLOW_RUN_DIR}/config
 
 --------------------------------------------------------------------------------
 
@@ -101,11 +130,127 @@ multi-line string (3)
         key: (key)
         operator: (assignment_operator)
         value: (multiline_string
-          (string_content)))
-      (sub_section_2
-        name: (nametag)
-        (setting
-          key: (key)
-          operator: (assignment_operator)
-          value: (unquoted_string
-            (string_content)))))))
+          (string_content))))))
+
+================================================================================
+multiline string with coupled quotes <3 (1)
+================================================================================
+
+
+[other-root]
+    just a key = '''
+        'with a ''
+        'value
+    '''
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content)))))
+
+================================================================================
+multiline string with coupled quotes <3 (2)
+================================================================================
+
+
+[other-root]
+    just a key = """
+        "with a ""
+        "''value
+    """
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content)))))
+
+================================================================================
+multiline string with "comment" inside
+================================================================================
+
+
+[other-root]
+    just a key = """
+        I'm a beautiful string #not a comment either
+        Rest of the string
+    """ # this is one though
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (multiline_string
+        (string_content))
+      (comment))))
+
+================================================================================
+multiline string with "line continuation"
+================================================================================
+
+# treated as simply text of the string
+[runtime]
+    [[convert_raw]]
+        script = """
+            thermorawfileparser
+                --format=${format} \
+                --input=${input} \
+                --output=${output} \
+                --metadata=${metadata}
+        """
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (comment)
+  (top_section
+    name: (nametag)
+    (sub_section_1
+      name: (nametag)
+      (setting
+        key: (key)
+        operator: (assignment_operator)
+        value: (multiline_string
+          (string_content))))))
+
+================================================================================
+multiline string with "line continuation" with another \ just before
+================================================================================
+
+[runtime]
+    [[convert_raw]]
+        script = '''
+            thermorawfileparser
+                --format=${format} \\
+                --input=${input} \\\
+                --output=${output} \\
+                --metadata=${metadata}
+        '''
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (sub_section_1
+      name: (nametag)
+      (setting
+        key: (key)
+        operator: (assignment_operator)
+        value: (multiline_string
+          (string_content))))))
