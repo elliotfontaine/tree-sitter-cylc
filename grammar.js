@@ -115,9 +115,9 @@ module.exports = grammar({
         repeat(token.immediate(/ ?[\p{L}\p{N}:!^$+_()/._-]/)),
       ),
 
-    boolean: (_) => token(seq(choice("True", "False"), repeat(/[ \t]/))),
+    boolean: (_) => seq(choice("True", "False"), /[ \t]*/),
 
-    integer: (_) => token(seq(repeat1(/\d+/), repeat(/[ \t]/))),
+    integer: (_) => seq(repeat1(/\d+/), /[ \t]*/),
 
     _line_return: (_) => /\r?\n/,
 
@@ -211,7 +211,7 @@ module.exports = grammar({
               ),
             ),
           ),
-          repeat(/[ \t]/),
+          /[ \t]*/,
         ),
       ),
 
@@ -454,8 +454,22 @@ module.exports = grammar({
         $._line_return,
       ),
 
-    unquoted_string: ($) =>
-      alias(repeat1(token(/[^ "'#\n][^{#\n]*/)), $.string_content),
+    unquoted_string: ($) => alias($._us_content, $.string_content),
+
+    // A bit hacky. Has to manage the competition with the data
+    // types available to $.setting (boolean, integer and datetime).
+    _us_content: ($) =>
+      prec.right(
+        seq(
+          choice(
+            /[^ #\n\r]/,
+            alias($.boolean, ""),
+            alias($.integer, ""),
+            alias($.datetime, ""),
+          ),
+          repeat(/[^#\n\r]/),
+        ),
+      ),
 
     quoted_string: ($) =>
       choice(

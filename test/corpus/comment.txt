@@ -2,11 +2,66 @@
 comment
 ================================================================================
 
+# Root comment
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (comment))
+
+================================================================================
+comment with "#" inside
+================================================================================
+
+# Root comment # this is treated as a single comment
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (comment))
+
+================================================================================
+error: comment with line continuation attempt
+================================================================================
+
+# Backslash shouldn't be treated as \
+a proper line continuation
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (comment)
+  (ERROR))
+
+================================================================================
+comment after section name
+================================================================================
+
+# Header comment
+[some-section] # a comment here ?!
+    key = value
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (comment)
+  (top_section
+    name: (section_name
+      (nametag))
+    (comment)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content)))))
+
+================================================================================
+comment after setting
+================================================================================
+
 # Header comment
 [some-section]
-    key = value
-[other-root] # a comment here ?!
-    just a key = with a value # and a comment without space
+    key = value # is a good value
 
 --------------------------------------------------------------------------------
 
@@ -19,14 +74,6 @@ comment
       key: (key)
       operator: (assignment_operator)
       value: (unquoted_string
-        (string_content))))
-  (top_section
-    name: (section_name
-      (nametag))
-    (comment)
-    (setting
-      key: (key)
-      operator: (assignment_operator)
-      value: (unquoted_string
         (string_content))
       (comment))))
+

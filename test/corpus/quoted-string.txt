@@ -180,7 +180,7 @@ line continuation"
         (ERROR)))))
 
 =============================================================================
-unsupported: "comment" in quoted string
+"comment" in quoted string
 =============================================================================
 
 [some-section]

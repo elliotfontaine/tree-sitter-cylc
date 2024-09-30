@@ -55,8 +55,8 @@ jinja2 (statement, expression, comment)
         key: (key
           (jinja2_expression))
         operator: (assignment_operator)
-        value: (integer)
-        (jinja2_expression))
+        value: (integer
+        (jinja2_expression)))
       (setting
         key: (key)
         operator: (assignment_operator)
@@ -375,8 +375,7 @@ unsupported: jinja2 IN graph setting key
               (recurrence)))))))))
 
 =============================================================================
-unsupported: expression in integer
-:skip
+jinja2 expression in integer (makes it a unq.-string)
 =============================================================================
 
 [scheduling]
@@ -386,9 +385,11 @@ INFLUXDB_V2_URL = 1{{ cfg__influxdb_url }}2
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
-      value: (integer
-        (jinja2_expression)))))
+      value: (unquoted_string
+        (string_content
+          (jinja2_expression))))))
