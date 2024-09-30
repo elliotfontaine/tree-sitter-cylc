@@ -173,7 +173,8 @@ jinja2 in intercycle annotation
               (task_name
                 (nametag))
               (intercycle_annotation
-                (jinja2_expression)))
+                (jinja2_expression)
+                    (recurrence)))
             (graph_arrow)
             (graph_task
               (task_name
