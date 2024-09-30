@@ -202,7 +202,11 @@ module.exports = grammar({
             field(
               "value",
               optional(
-                choice($.multiline_graph_string, $.unquoted_graph_string),
+                choice(
+                  $.unquoted_graph_string,
+                  $.quoted_graph_string,
+                  $.multiline_graph_string,
+                ),
               ),
             ),
           ),
@@ -215,6 +219,23 @@ module.exports = grammar({
         seq(repeat1(choice($.graph_logical, $.graph_task, $.graph_arrow))),
         $.graph_string_content,
       ),
+
+    quoted_graph_string: ($) =>
+      choice(
+        seq(
+          field("quotes_open", '"'),
+          alias($._qgs_content, $.graph_string_content),
+          field("quotes_close", '"'),
+        ),
+        seq(
+          field("quotes_open", "'"),
+          alias($._qgs_content, $.graph_string_content),
+          field("quotes_close", "'"),
+        ),
+      ),
+
+    _qgs_content: ($) =>
+      seq(repeat1(choice($.graph_logical, $.graph_task, $.graph_arrow))),
 
     multiline_graph_string: ($) =>
       choice(
