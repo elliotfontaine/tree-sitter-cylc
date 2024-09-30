@@ -1,23 +1,4 @@
 ================================================================================
-unsupported: expression in integer
-:skip
-================================================================================
-
-[scheduling]
-INFLUXDB_V2_URL = 1{{ cfg__influxdb_url }}2
-
---------------------------------------------------------------------------------
-
-(workflow_configuration
-  (top_section
-    name: (nametag)
-    (setting
-      key: (key)
-      operator: (assignment_operator)
-      value: (integer
-        (jinja2_expression)))))
-
-================================================================================
 jinja2 (statement, expression, comment)
 ================================================================================
 
@@ -90,6 +71,69 @@ jinja2 (statement, expression, comment)
         (jinja2_expression)))))
 
 ================================================================================
+jinja2 in multiline string (start)
+================================================================================
+
+[section]
+    item = """{{the following dude is lying}}
+      I am a integer
+    """
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (nametag)
+    (setting
+      (key)
+      (assignment_operator)
+      (multiline_string
+        (jinja2_expression)
+        (string_content)))))
+
+================================================================================
+jinja2 in multiline string (end)
+================================================================================
+
+[section]
+    item = """
+      this is a string {{but with a surprise inside}}
+    """
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (nametag)
+    (setting
+      (key)
+      (assignment_operator)
+      (multiline_string
+        (string_content
+          (jinja2_expression))))))
+
+================================================================================
+jinja2 in multiline string (middle)
+================================================================================
+
+[section]
+    item = """
+      this is a {{despicable }} string.
+    """
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (nametag)
+    (setting
+      (key)
+      (assignment_operator)
+      (multiline_string
+        (string_content
+          (jinja2_expression))))))
+
+================================================================================
 jinja2 in intercycle annotation
 ================================================================================
 
@@ -124,3 +168,108 @@ jinja2 in intercycle annotation
                 (graph_arrow)
                 (graph_task
                   (nametag))))))))
+
+================================================================================
+jinja2 as setting key
+================================================================================
+
+[section]
+    {{ custom-setting }} = 25
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (nametag)
+    (setting
+      (jinja2_expression)
+      (assignment_operator)
+      (integer))))
+
+================================================================================
+jinja2 IN setting key
+================================================================================
+
+[section]
+    param_{{ custom-setting }}_2 = 25
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (nametag)
+    (setting
+      (key
+        (jinja2_expression))
+      (assignment_operator)
+      (integer))))
+
+================================================================================
+jinja2 as graph setting key
+================================================================================
+
+[scheduling]
+    [[graph]]
+        {{ custom-recurrence }} = my_task[^]
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (nametag)
+    (graph_section
+      (nametag)
+    (graph_setting
+      (jinja2_expression)
+      (assignment_operator)
+      (unquoted_graph_string
+        (graph_string_content
+          (graph_task
+            (nametag)
+            (intercycle_annotation
+              (recurrence)))))))))
+
+================================================================================
+unsupported: jinja2 IN graph setting key
+:skip
+================================================================================
+
+[scheduling]
+    [[graph]]
+        P2/{{ custom-recurrence }}/2 = my_task[^]
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (nametag)
+    (graph_section
+      (nametag)
+    (graph_setting
+      (jinja2_expression)
+      (assignment_operator)
+      (unquoted_graph_string
+        (graph_string_content
+          (graph_task
+            (nametag)
+            (intercycle_annotation
+              (recurrence)))))))))
+
+================================================================================
+unsupported: expression in integer
+:skip
+================================================================================
+
+[scheduling]
+INFLUXDB_V2_URL = 1{{ cfg__influxdb_url }}2
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (nametag)
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (integer
+        (jinja2_expression)))))

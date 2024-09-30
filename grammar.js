@@ -231,7 +231,7 @@ module.exports = grammar({
 
     graph_setting: ($) =>
       seq(
-        field("key", $.recurrence),
+        field("key", choice($.recurrence, $.jinja2_expression)),
         optional(
           seq(
             field("operator", $.assignment_operator),
@@ -341,7 +341,7 @@ module.exports = grammar({
 
     setting: ($) =>
       seq(
-        field("key", $.key),
+        field("key", choice($.key, $.jinja2_expression)),
         optional(
           seq(
             field("operator", $.assignment_operator),
