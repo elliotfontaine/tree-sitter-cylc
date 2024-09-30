@@ -48,11 +48,40 @@ module.exports = grammar({
     jinja2_shebang: (_) => "#!Jinja2",
 
     jinja2_expression: (_) =>
-      token(prec(PREC.jinja, seq("{{", /[^{}]*/, "}}"))),
+      token(
+        prec(
+          PREC.jinja,
+          seq(
+            "{{",
+            /([^{}]|\{[^{]|\}[^}])*/, // Anything except {{ or }}
+            "}}",
+          ),
+        ),
+      ),
 
-    jinja2_statement: (_) => token(prec(PREC.jinja, seq("{%", /[^{%]*/, "%}"))),
+    jinja2_statement: (_) =>
+      token(
+        prec(
+          PREC.jinja,
+          seq(
+            "{%",
+            /([^%{]|%[^}]|\{[^%])*/, // Anything except {% or %}
+            "%}",
+          ),
+        ),
+      ),
 
-    jinja2_comment: (_) => token(prec(PREC.jinja, seq("{#", /[^{#]*/, "#}"))),
+    jinja2_comment: (_) =>
+      token(
+        prec(
+          PREC.jinja,
+          seq(
+            "{#",
+            /([^#{]|#[^}]|\{[^#])*/, // Anything except {# or #}
+            "#}",
+          ),
+        ),
+      ),
 
     include_directive: (_) => "%include",
 
