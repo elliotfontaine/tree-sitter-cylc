@@ -93,20 +93,20 @@ module.exports = grammar({
 
     comment: (_) => seq("#", /[^\r\n]*/),
 
-    // revert to these if Unicode makes the parser too slow.
-    // nametag: (_) => /[a-zA-Z0-9\-_+%@]+/,
-    // key: (_) => /[a-zA-Z0-9_-]+(\s[a-zA-Z0-9_-]+)*/,
-
     // used for section names + task/family names + task outputs / task parameters (in graph).
     nametag: (_) =>
       seq(
+        // @ts-ignore
         /[\p{L}\p{N}_]+/, // First character: alphanumeric/Unicode or underscore (see cylc/cylc-flow#6288)
+        // @ts-ignore
         repeat(/[\p{L}\p{N} \t+%@_-]/),
       ),
 
     key: (_) =>
       seq(
+        // @ts-ignore
         /[\p{L}\p{N}:!^$+_()/._-]+/,
+        // @ts-ignore
         repeat(token.immediate(/ ?[\p{L}\p{N}:!^$+_()/._-]/)),
       ),
 
