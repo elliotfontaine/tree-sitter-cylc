@@ -21,17 +21,17 @@ comment with "#" inside
   (comment))
 
 ================================================================================
-error: comment with line continuation attempt
+comment with line continuation
 ================================================================================
 
-# Backslash shouldn't be treated as \
-a proper line continuation
+# Backslash should be treated as a proper line continuation, but \
+this cant be a $.line_continuation because it results in the following: \
+"Extra rules must have unambiguous endings."
 
 --------------------------------------------------------------------------------
 
 (workflow_configuration
-  (comment)
-  (ERROR))
+  (comment))
 
 ================================================================================
 comment after section name

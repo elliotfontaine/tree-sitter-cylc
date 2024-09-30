@@ -70,7 +70,8 @@ module.exports = grammar({
 
     graph_arrow: (_) => "=>",
 
-    comment: (_) => seq("#", /[^\r\n]*/),
+    // Line continuation is handled explicitly because "Extra rules must have unambiguous endings."
+    comment: (_) => seq("#", /([^\\\r\n]|\\[^\r\n]|\\\r?\n)*/),
 
     // used for section names + task/family names + task outputs / task parameters (in graph).
     // First character: alphanumeric/Unicode or underscore (see cylc/cylc-flow#6288)
