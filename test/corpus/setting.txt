@@ -16,7 +16,8 @@ settings
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)

@@ -217,10 +217,12 @@ module.exports = grammar({
         field("path", choice($.quoted_string, $.unquoted_string)),
       ),
 
+    section_name: ($) => seq($.nametag, repeat(seq(",", $.nametag))),
+
     top_section: ($) =>
       seq(
         field("brackets_open", "["),
-        optional(field("name", $.nametag)),
+        optional(field("name", $.section_name)),
         field("brackets_close", "]"),
         $._line_return,
         optional(repeat(choice($.setting, $._line_return))),
@@ -232,7 +234,7 @@ module.exports = grammar({
     sub_section_1: ($) =>
       seq(
         field("brackets_open", "[["),
-        optional(field("name", $.nametag)),
+        optional(field("name", $.section_name)),
         repeat(field("parameter", $.task_parameter)),
         field("brackets_close", "]]"),
         $._line_return,
@@ -243,7 +245,7 @@ module.exports = grammar({
     graph_section: ($) =>
       seq(
         field("brackets_open", "[["),
-        field("name", alias("graph", $.nametag)),
+        field("name", alias("graph", $.section_name)),
         field("brackets_close", "]]"),
         $._line_return,
         optional(repeat(choice($.graph_setting, $._line_return))),
@@ -252,7 +254,7 @@ module.exports = grammar({
     sub_section_2: ($) =>
       seq(
         field("brackets_open", "[[["),
-        optional(field("name", $.nametag)),
+        optional(field("name", $.section_name)),
         field("brackets_close", "]]]"),
         $._line_return,
         optional(repeat(choice($.setting, $._line_return))),

@@ -11,20 +11,22 @@ comment
 --------------------------------------------------------------------------------
 
 (workflow_configuration
+  (comment)
+  (top_section
+    name: (section_name
+      (nametag))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content))))
+  (top_section
+    name: (section_name
+      (nametag))
     (comment)
-    (top_section
-        name: (nametag)
-        (setting
-            key: (key)
-            operator: (assignment_operator)
-            value: (unquoted_string
-                (string_content))))
-    (top_section
-        name: (nametag)
-        (comment)
-        (setting
-            key: (key)
-            operator: (assignment_operator)
-            value: (unquoted_string
-                (string_content))
-            (comment))))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
+        (string_content))
+      (comment))))

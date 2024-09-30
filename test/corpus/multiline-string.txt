@@ -13,7 +13,8 @@ multiline string (1)
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -35,7 +36,8 @@ multiline string (2)
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -53,7 +55,8 @@ multiline string on a single line (1)
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -71,7 +74,8 @@ multiline string on a single line (2)
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -96,9 +100,11 @@ multiline string with lonely quotes (1)
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (sub_section_1
-      name: (nametag)
+      name: (section_name
+        (nametag))
       (setting
         key: (key)
         operator: (assignment_operator)
@@ -123,9 +129,11 @@ multiline string with lonely quotes (2)
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (sub_section_1
-      name: (nametag)
+      name: (section_name
+        (nametag))
       (setting
         key: (key)
         operator: (assignment_operator)
@@ -147,7 +155,8 @@ multiline string with coupled quotes <3 (1)
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -169,7 +178,8 @@ multiline string with coupled quotes <3 (2)
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -191,7 +201,8 @@ multiline string with "comment" inside
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -219,9 +230,11 @@ multiline string with "line continuation"
 (workflow_configuration
   (comment)
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (sub_section_1
-      name: (nametag)
+      name: (section_name
+        (nametag))
       (setting
         key: (key)
         operator: (assignment_operator)
@@ -246,9 +259,11 @@ multiline string with "line continuation" with another \ just before
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (sub_section_1
-      name: (nametag)
+      name: (section_name
+        (nametag))
       (setting
         key: (key)
         operator: (assignment_operator)

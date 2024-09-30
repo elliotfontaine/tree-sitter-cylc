@@ -1,6 +1,6 @@
-=============================================================================|||
+=============================================================================
 setting key
-=============================================================================|||
+=============================================================================
 
 [section]
     setting = 1
@@ -8,43 +8,45 @@ setting key
     A ბ: ㄱ = 3
     hé mais ça va = 4
 
------------------------------------------------------------------------------|||
+-----------------------------------------------------------------------------
 
 (workflow_configuration
-    (top_section
-        name: (nametag)
-        (setting
-            key: (key)
-            operator: (assignment_operator)
-            value: (integer))
-        (setting
-            key: (key)
-            operator: (assignment_operator)
-            value: (integer))
-        (setting
-            key: (key)
-            operator: (assignment_operator)
-            value: (integer))
-        (setting
-            key: (key)
-            operator: (assignment_operator)
-            value: (integer))))
+  (top_section
+    name: (section_name
+      (nametag))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (integer))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (integer))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (integer))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (integer))))
 
-=============================================================================|||
+=============================================================================
 error: two consecutive whitespaces in key
-=============================================================================|||
+=============================================================================
 
 [section]
     setting  name = 2
 
------------------------------------------------------------------------------|||
+-----------------------------------------------------------------------------
 
 (workflow_configuration
-    (top_section
-        name: (nametag)
-        (setting
-            key: (key
-                (ERROR
-                (UNEXPECTED 'n')))
-            operator: (assignment_operator)
-            value: (integer))))
+  (top_section
+    name: (section_name
+      (nametag))
+    (setting
+      key: (key
+        (ERROR
+          (UNEXPECTED 'n')))
+      operator: (assignment_operator)
+      value: (integer))))

@@ -14,22 +14,26 @@ sections and subsections
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
       value: (unquoted_string
         (string_content)))
     (sub_section_1
-      name: (nametag)
+      name: (section_name
+        (nametag))
       (sub_section_2
-        name: (nametag)
+        name: (section_name
+          (nametag))
         (setting
           key: (key)
           operator: (assignment_operator)
           value: (integer)))))
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -63,28 +67,33 @@ this key is in subsub = 99
 
 (workflow_configuration
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
       value: (unquoted_string
         (string_content)))
     (sub_section_1
-      name: (nametag)
+      name: (section_name
+        (nametag))
       (sub_section_2
-        name: (nametag)
+        name: (section_name
+          (nametag))
         (setting
           key: (key)
           operator: (assignment_operator)
           value: (integer)))
       (sub_section_2
-        name: (nametag)
+        name: (section_name
+          (nametag))
         (setting
           key: (key)
           operator: (assignment_operator)
           value: (integer)))))
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)

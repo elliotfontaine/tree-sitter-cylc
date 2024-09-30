@@ -36,7 +36,8 @@ satellite short
 (workflow_configuration
   (jinja2_shebang)
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -44,7 +45,8 @@ satellite short
         (string_content)))
     (jinja2_statement))
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
@@ -59,14 +61,15 @@ satellite short
       operator: (assignment_operator)
       (jinja2_expression))
     (sub_section_1
-      name: (nametag)
+      name: (section_name
+        (nametag))
       (setting
         key: (key)
         operator: (assignment_operator)
         value: (unquoted_string
           (string_content))))
     (graph_section
-      name: (nametag)
+      name: (section_name)
       (graph_setting
         key: (recurrence)
         operator: (assignment_operator)
@@ -112,23 +115,26 @@ satellite short
         operator: (assignment_operator)
         value: (unquoted_graph_string
           (graph_string_content
-          (graph_task
-            name: (nametag))
-          (graph_arrow)
-          (graph_task
-            name: (nametag))))
+            (graph_task
+              name: (nametag))
+            (graph_arrow)
+            (graph_task
+              name: (nametag))))
         (comment))))
   (top_section
-    name: (nametag)
+    name: (section_name
+      (nametag))
     (sub_section_1
-      name: (nametag)
+      name: (section_name
+        (nametag))
       (setting
         key: (key)
         operator: (assignment_operator)
         value: (multiline_string
           (string_content)))
       (sub_section_2
-        name: (nametag)
+        name: (section_name
+          (nametag))
         (setting
           key: (key)
           operator: (assignment_operator)

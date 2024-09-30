@@ -16,7 +16,8 @@ include statement
     path: (quoted_string
       (string_content)))
   (top_section
-    name: (nametag))
+    name: (section_name
+      (nametag)))
   (include_statement
     directive: (include_directive)
     path: (quoted_string
@@ -36,5 +37,5 @@ include statement with unquoted path
   (comment)
   (include_statement
     (include_directive)
-      (unquoted_string
-        (string_content))))
+    (unquoted_string
+      (string_content))))
