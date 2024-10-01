@@ -119,8 +119,8 @@ satellite short
                 (nametag)))
             (comment))))
       (graph_setting
-        key: (recurrence)
-        (jinja2_expression)
+        key: (recurrence
+          (jinja2_expression))
         operator: (assignment_operator)
         value: (unquoted_graph_string
           (graph_string_content

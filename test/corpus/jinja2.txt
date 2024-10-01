@@ -350,7 +350,6 @@ error: opening symbol in jinja2 comment
 
 =============================================================================
 unsupported: jinja2 IN graph setting key
-:skip
 =============================================================================
 
 [scheduling]
@@ -361,16 +360,19 @@ unsupported: jinja2 IN graph setting key
 
 (workflow_configuration
   (top_section
-    (nametag)
+    (section_name
+      (nametag))
     (graph_section
-      (nametag)
+      (section_name)
     (graph_setting
-      (jinja2_expression)
+      (recurrence
+        (jinja2_expression))
       (assignment_operator)
       (unquoted_graph_string
         (graph_string_content
           (graph_task
-            (nametag)
+            (task_name
+              (nametag))
             (intercycle_annotation
               (recurrence)))))))))
 
