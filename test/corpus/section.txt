@@ -99,3 +99,93 @@ this key is in subsub = 99
       operator: (assignment_operator)
       value: (unquoted_string
         (string_content)))))
+
+================================================================================
+unsupported: weird sections spacing
+:skip
+================================================================================
+
+#!jinja2   
+    
+    # Highly specific bug, only happens after [[graph]]
+
+{% set HELLO=False %}    
+[  scheduling   ]    
+    initial cycle point = 20140101T00
+    [[  special tasks  ]]    
+        sequential = foo , bar ,  baz   
+    [[   graph  ]]   
+        T00, T12  ="""   
+        a => b   
+        foo => bar &  baz  """   
+ 
+    [  runtime   ]   
+ [[baz ]] 
+    [[  foo,bar   ,  a,  b  ]]   
+%include "inc.cylc"   
+
+--------------------------------------------------------------------------------
+
+(workflow_configuration
+      (comment)
+      (jinja2_statement)
+      (top_section
+        (section_name
+          (nametag))
+        (setting
+          (key)
+          (assignment_operator)
+          (datetime))
+        (sub_section_1
+          (section_name
+            (nametag))
+          (setting
+            (key)
+            (assignment_operator)
+            (unquoted_string
+              (string_content))))
+        (graph_section
+          (section_name)
+          (graph_setting
+            (recurrence)
+            (assignment_operator)
+            (multiline_graph_string
+              (graph_string_content
+                (graph_task
+                  (task_name
+                    (nametag)))
+                (graph_arrow)
+                (graph_task
+                  (task_name
+                    (nametag)))
+                (graph_task
+                  (task_name
+                    (nametag)))
+                (graph_arrow)
+                (graph_task
+                  (task_name
+                    (nametag)))
+                (graph_logical)
+                (graph_task
+                  (task_name
+                    (nametag))))))))
+      (runtime_section
+        (section_name)
+        (task_section
+          (namespace
+            (task_name
+              (nametag))))
+        (task_section
+          (namespace
+            (task_name
+              (nametag))
+            (task_name
+              (nametag))
+            (task_name
+              (nametag))
+            (task_name
+              (nametag)))))
+      (include_statement
+        (include_directive)
+        (quoted_string
+          (string_content))))

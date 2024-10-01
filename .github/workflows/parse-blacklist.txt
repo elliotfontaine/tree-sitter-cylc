@@ -15,3 +15,5 @@ examples/cylc-flow/tests/functional/validate/49-jinja2-undefined-error/flow.cylc
 examples/cylc-flow/tests/functional/workflow-state/02-validate-blank-command-scripting/flow.cylc
 examples/cylc-flow/tests/functional/workflow-state/11-multi/flow.cylc
 examples/cylc-flow/tests/functional/workflow-state/polling/flow.cylc
+examples/cylc-flow/tests/functional/empy/00-simple/flow.cylc
+examples/cylc-flow/tests/functional/validate/08-whitespace/flow.cylc
