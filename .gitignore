@@ -1,6 +1,12 @@
 # Ignore node_modules (for projects using npm or yarn)
 node_modules/
 
+# Python artifacts
+.venv/
+dist/
+*.egg-info
+*.whl
+
 # Ignore build artifacts
 build/
 #binding.gyp
