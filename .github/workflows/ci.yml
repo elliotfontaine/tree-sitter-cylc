@@ -40,8 +40,8 @@ jobs:
         uses: tree-sitter/setup-action/cli@v1
       - name: Run tests
         uses: tree-sitter/parser-test-action@v2
-        # with:
-        #   test-rust: ${{runner.os == 'Linux'}} # bindings not yet written
+        with:
+          test-python: ${{runner.os == 'Linux'}}
       - name: Set up examples
         run: |-
           git clone https://github.com/cylc/cylc-flow examples/cylc-flow --single-branch --depth=1 --filter=blob:none
