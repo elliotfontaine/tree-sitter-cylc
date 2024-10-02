@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-cylc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cylc grammar for tree-sitter",
   "license": "MIT",
   "author": "Elliot Fontaine <elliot.fontaine@gmail.com>",
