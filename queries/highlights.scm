@@ -1,25 +1,21 @@
 (ERROR) @emphasis.strong
 
-[
-  (jinja2_expression)
-  (jinja2_statement)
-  (jinja2_comment)
-  (jinja2_shebang)
-] @text.literal
-
 (include_statement) @embedded
 
 (comment) @comment
 
 (_
   brackets_open: _ @operator
-  name: (_)? @title
+  name: _? @title
   brackets_close: _ @operator)
 
 (graph_section
-  brackets_open: _ @property
-  name: (_)? @hint
-  brackets_close: _ @property)
+  name: _? @property)
+
+(task_section
+  name: _? @emphasis)
+
+
 
 (graph_setting
   key: (_) @number
@@ -73,4 +69,11 @@
     (integer) @number
   ]?)
 
-  (datetime) @number
+(datetime) @number
+
+[
+  (jinja2_expression)
+  (jinja2_statement)
+  (jinja2_comment)
+  (jinja2_shebang)
+] @text.literal

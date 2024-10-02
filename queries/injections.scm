@@ -18,5 +18,3 @@
     (setting) @content))
  (#set! "language" "bash")
  (#set! combined))
-
-
