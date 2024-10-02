@@ -14,10 +14,10 @@ def _get_query(name, file):
 def __getattr__(name):
     # NOTE: uncomment these to include any queries that this grammar contains:
 
-    # if name == "HIGHLIGHTS_QUERY":
-    #     return _get_query("HIGHLIGHTS_QUERY", "highlights.scm")
-    # if name == "INJECTIONS_QUERY":
-    #     return _get_query("INJECTIONS_QUERY", "injections.scm")
+    if name == "HIGHLIGHTS_QUERY":
+        return _get_query("HIGHLIGHTS_QUERY", "highlights.scm")
+    if name == "INJECTIONS_QUERY":
+        return _get_query("INJECTIONS_QUERY", "injections.scm")
     # if name == "LOCALS_QUERY":
     #     return _get_query("LOCALS_QUERY", "locals.scm")
     # if name == "TAGS_QUERY":
@@ -28,15 +28,26 @@ def __getattr__(name):
 
 __all__ = [
     "language",
-    # "HIGHLIGHTS_QUERY",
-    # "INJECTIONS_QUERY",
+    "HIGHLIGHTS_QUERY",
+    "INJECTIONS_QUERY",
     # "LOCALS_QUERY",
     # "TAGS_QUERY",
 ]
 
 
 def __dir__():
-    return sorted(__all__ + [
-        "__all__", "__builtins__", "__cached__", "__doc__", "__file__",
-        "__loader__", "__name__", "__package__", "__path__", "__spec__",
-    ])
+    return sorted(
+        __all__
+        + [
+            "__all__",
+            "__builtins__",
+            "__cached__",
+            "__doc__",
+            "__file__",
+            "__loader__",
+            "__name__",
+            "__package__",
+            "__path__",
+            "__spec__",
+        ]
+    )
