@@ -11,8 +11,7 @@ module.exports = grammar({
   name: "cylc",
 
   extras: ($) => [
-    // /[ \t\f\uFEFF\u2060\u200B]/, // breaks line returns requirements
-    /[ \t]/,
+    /[ \t\f\uFEFF\u2060\u200B]/,
     $.jinja2_expression,
     $.jinja2_statement,
     $.jinja2_comment,

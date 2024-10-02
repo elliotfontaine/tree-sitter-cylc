@@ -101,14 +101,11 @@ this key is in subsub = 99
         (string_content)))))
 
 ================================================================================
-unsupported: weird sections spacing
-:skip
+weird sections spacing
 ================================================================================
 
 #!jinja2   
     
-    # Highly specific bug, only happens after [[graph]]
-
 {% set HELLO=False %}    
 [  scheduling   ]    
     initial cycle point = 20140101T00
@@ -118,8 +115,8 @@ unsupported: weird sections spacing
         T00, T12  ="""   
         a => b   
         foo => bar &  baz  """   
- 
-    [  runtime   ]   
+        
+   [  runtime   ]    
  [[baz ]] 
     [[  foo,bar   ,  a,  b  ]]   
 %include "inc.cylc"   
