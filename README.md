@@ -38,7 +38,7 @@ As a grammar, tree-sitter-cylc can be used to generate syntax highlighting for C
 tree-sitter-cylc is available as a package on [PyPi](https://pypi.org/project/tree-sitter-python/). You can install it through pip:
 
 ```sh
-pip install tree-sitter-cylc
+pip install tree-sitter tree-sitter-cylc
 ```
 
 You can then use the **tree_sitter_cylc** module to parse Cylc files from Python:
