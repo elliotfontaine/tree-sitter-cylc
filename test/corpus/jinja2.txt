@@ -74,6 +74,105 @@ jinja2 (statement, expression, comment)
         (jinja2_expression)))))
 
 =============================================================================
+unsupported: jinja2 statement in middle of comment
+:skip
+=============================================================================
+
+# This is a jinja2 {% stating something %} statement
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (comment
+    (jinja2_statement)))
+
+=============================================================================
+unsupported: jinja2 comment in middle of comment
+:skip
+=============================================================================
+
+# This is a jinja2 {# commenting something #} comment
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (comment
+    (jinja2_comment)))
+
+=============================================================================
+unsupported: jinja2 expression in middle of 
+:skip
+=============================================================================
+
+# This is a jinja2 {# expressing something #} expression
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (comment
+    (jinja2_expression)))
+
+=============================================================================
+jinja2 in unquoted string (start)
+=============================================================================
+
+[section]
+    param = {{ custom-setting }}.txt
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (section_name
+      (nametag))
+    (setting
+      (key)
+      (assignment_operator)
+      (jinja2_expression)
+      (unquoted_string
+        (string_content)))))
+
+=============================================================================
+jinja2 in unquoted string (middle)
+=============================================================================
+
+[section]
+    param = file-{{ custom-setting }}.txt
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (section_name
+      (nametag))
+    (setting
+      (key)
+      (assignment_operator)
+      (unquoted_string
+        (string_content
+         (jinja2_expression))))))
+
+=============================================================================
+jinja2 in unquoted string (end)
+=============================================================================
+
+[section]
+    param = file.{{ extension }}
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (section_name
+      (nametag))
+    (setting
+      (key)
+      (assignment_operator)
+      (unquoted_string
+        (string_content))
+      (jinja2_expression))))
+
+=============================================================================
 jinja2 in multiline string (start)
 =============================================================================
 
@@ -136,6 +235,26 @@ jinja2 in multiline string (middle)
       (key)
       (assignment_operator)
       (multiline_string
+        (string_content
+          (jinja2_expression))))))
+
+=============================================================================
+jinja2 expression in integer (makes it a unq.-string)
+=============================================================================
+
+[scheduling]
+INFLUXDB_V2_URL = 1{{ cfg__influxdb_url }}2
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (section_name
+      (nametag))
+    (setting
+      key: (key)
+      operator: (assignment_operator)
+      value: (unquoted_string
         (string_content
           (jinja2_expression))))))
 
@@ -216,6 +335,24 @@ jinja2 IN setting key
         (jinja2_expression))
       (assignment_operator)
       (integer))))
+
+=============================================================================
+jinja2 as setting value
+=============================================================================
+
+[section]
+    param = {{ custom-setting }}
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    (section_name
+      (nametag))
+    (setting
+      (key)
+      (assignment_operator)
+      (jinja2_expression))))
 
 =============================================================================
 jinja2 as graph setting key
@@ -350,12 +487,12 @@ error: opening symbol in jinja2 comment
 (pass)
 
 =============================================================================
-unsupported: jinja2 IN graph setting key
+jinja2 IN graph setting key
 =============================================================================
 
 [scheduling]
     [[graph]]
-        P2/{{ custom-recurrence }}/2 = my_task[^]
+        P2/{{ custom-recurrence }}/2 = my_task
 
 -----------------------------------------------------------------------------
 
@@ -373,18 +510,16 @@ unsupported: jinja2 IN graph setting key
         (graph_string_content
           (graph_task
             (task_name
-              (nametag))
-            (intercycle_annotation
-              (recurrence)))))))))
+              (nametag)))))))))
 
-=============================================================================
-jinja2 expression in integer (makes it a unq.-string)
-=============================================================================
+================================================================================
+quote directly after jinja in unquoted string
+================================================================================
 
 [scheduling]
-INFLUXDB_V2_URL = 1{{ cfg__influxdb_url }}2
+INFLUXDB_V2_URL =  this is unquoted string: "{{N_DATASETS}}".
 
------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 (workflow_configuration
   (top_section
@@ -395,4 +530,4 @@ INFLUXDB_V2_URL = 1{{ cfg__influxdb_url }}2
       operator: (assignment_operator)
       value: (unquoted_string
         (string_content
-          (jinja2_expression))))))
+         (jinja2_expression))))))

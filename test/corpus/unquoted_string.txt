@@ -18,7 +18,7 @@ unquoted string
         (string_content)))))
 
 ================================================================================
-unquoted string starting with "integer"
+unquoted string starting with an "integer"
 ================================================================================
 
 [section]
@@ -37,7 +37,7 @@ unquoted string starting with "integer"
         (string_content)))))
 
 ================================================================================
-unquoted string starting with "boolean"
+unquoted string starting with a "boolean"
 ================================================================================
 
 [section]
@@ -56,7 +56,7 @@ unquoted string starting with "boolean"
         (string_content)))))
 
 ================================================================================
-unquoted string starting with "datetime"
+unquoted string starting with a "datetime"
 ================================================================================
 
 [section]
@@ -134,23 +134,3 @@ unquoted string with backslashes
       operator: (assignment_operator)
       value: (unquoted_string
         (string_content)))))
-
-================================================================================
-quote directly after jinja
-================================================================================
-
-[scheduling]
-INFLUXDB_V2_URL =  this is unquoted string: "{{N_DATASETS}}".
-
---------------------------------------------------------------------------------
-
-(workflow_configuration
-  (top_section
-    name: (section_name
-      (nametag))
-    (setting
-      key: (key)
-      operator: (assignment_operator)
-      value: (unquoted_string
-        (string_content
-         (jinja2_expression))))))

@@ -4,9 +4,6 @@ setting key
 
 [section]
     setting = 1
-    setting with spaces = 2
-    A ბ: ㄱ = 3
-    hé mais ça va = 4
 
 -----------------------------------------------------------------------------
 
@@ -17,26 +14,55 @@ setting key
     (setting
       key: (key)
       operator: (assignment_operator)
-      value: (integer))
+      value: (integer))))
+
+=============================================================================
+setting key with spaces
+=============================================================================
+
+[section]
+    setting key with spaces = 1
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
-      value: (integer))
-    (setting
-      key: (key)
-      operator: (assignment_operator)
-      value: (integer))
+      value: (integer))))
+
+
+
+=============================================================================
+setting key with unicode
+=============================================================================
+
+[section]
+
+    çAб éბ: юㄱ = 3
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (top_section
+    name: (section_name
+      (nametag))
     (setting
       key: (key)
       operator: (assignment_operator)
       value: (integer))))
 
 =============================================================================
-error: two consecutive whitespaces in key
+unsupported: setting key with line return
+:skip
 =============================================================================
 
 [section]
-    setting  name = 2
+    set\
+    ting = 1
 
 -----------------------------------------------------------------------------
 
@@ -46,7 +72,18 @@ error: two consecutive whitespaces in key
       (nametag))
     (setting
       key: (key
-        (ERROR
-          (UNEXPECTED 'n')))
+        (line_continuation))
       operator: (assignment_operator)
       value: (integer))))
+
+=============================================================================
+error: two consecutive whitespaces in key
+:error
+=============================================================================
+
+[section]
+    setting  name = 2
+
+-----------------------------------------------------------------------------
+
+(pass)

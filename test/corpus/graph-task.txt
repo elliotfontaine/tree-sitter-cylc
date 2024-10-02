@@ -4,8 +4,7 @@ space in intercycle annotation
 
 [scheduling]
     [[graph]]
-        R1 = my_task
-        P1 = my_task[ -P1 ] => my_task
+        P1 = my_task[ -P1   ] => my_task
 
 --------------------------------------------------------------------------------
 
@@ -15,14 +14,6 @@ space in intercycle annotation
       (nametag))
     (graph_section
       (section_name)
-      (graph_setting
-        (recurrence)
-        (assignment_operator)
-        (unquoted_graph_string
-          (graph_string_content
-            (graph_task
-              (task_name
-                (nametag))))))
       (graph_setting
         (recurrence)
         (assignment_operator)

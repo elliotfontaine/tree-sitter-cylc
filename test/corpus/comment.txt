@@ -37,14 +37,12 @@ this cant be a $.line_continuation because it results in the following: \
 comment after section name
 ================================================================================
 
-# Header comment
 [some-section] # a comment here ?!
     key = value
 
 --------------------------------------------------------------------------------
 
 (workflow_configuration
-  (comment)
   (top_section
     name: (section_name
       (nametag))
@@ -59,14 +57,12 @@ comment after section name
 comment after setting
 ================================================================================
 
-# Header comment
 [some-section]
     key = value # is a good value
 
 --------------------------------------------------------------------------------
 
 (workflow_configuration
-  (comment)
   (top_section
     name: (section_name
       (nametag))

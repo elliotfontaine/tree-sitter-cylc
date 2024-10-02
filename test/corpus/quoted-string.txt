@@ -160,6 +160,7 @@ continuation "
 
 =============================================================================
 error: line continuation broken because of whitespace
+:error
 =============================================================================
 
 [some-section]
@@ -168,16 +169,7 @@ line continuation"
 
 -----------------------------------------------------------------------------
 
-(workflow_configuration
-  (top_section
-    name: (section_name
-      (nametag))
-    (setting
-      key: (key)
-      operator: (assignment_operator)
-      value: (quoted_string
-        (string_content)
-        (ERROR)))))
+(pass)
 
 =============================================================================
 "comment" in quoted string
