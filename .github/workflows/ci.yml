@@ -45,9 +45,10 @@ jobs:
       - name: Set up examples
         run: |-
           git clone https://github.com/cylc/cylc-flow examples/cylc-flow --single-branch --depth=1 --filter=blob:none
-          rm examples/cylc-flow/tests/{f,i,k,u}
-          rm examples/cylc-flow/etc/syntax/reference-files/*.cylc
-          xargs -a .github/workflows/parse-blacklist.txt rm
+          rm -f examples/cylc-flow/tests/{f,i,k,u}
+          rm -f examples/cylc-flow/etc/syntax/reference-files/*.cylc
+          xargs rm -f < .github/workflows/parse-blacklist.txt
+        shell: bash
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:
