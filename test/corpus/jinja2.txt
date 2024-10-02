@@ -173,8 +173,8 @@ jinja2 in intercycle annotation
               (task_name
                 (nametag))
               (intercycle_annotation
-                (jinja2_expression)
-                    (recurrence)))
+                (recurrence
+                  (jinja2_expression))))
             (graph_arrow)
             (graph_task
               (task_name
@@ -234,7 +234,8 @@ jinja2 as graph setting key
     (graph_section
       (section_name)
       (graph_setting
-        (jinja2_expression)
+        (recurrence
+          (jinja2_expression))
         (assignment_operator)
         (unquoted_graph_string
           (graph_string_content

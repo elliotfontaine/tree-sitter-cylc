@@ -62,7 +62,8 @@ module.exports = grammar({
 
     include_directive: (_) => "%include",
 
-    recurrence: (_) => repeat1(choice(/[A-Z0-9/^$+\-,()!:, ]+/, "min")),
+    recurrence: ($) =>
+      repeat1(choice(/[A-Z0-9/^$+\-,()!:,]+/, $.jinja2_expression, "min")),
 
     graph_logical: (_) => token(choice("&", "|")),
 
@@ -261,7 +262,7 @@ module.exports = grammar({
 
     graph_setting: ($) =>
       seq(
-        field("key", choice($.recurrence, $.jinja2_expression)),
+        field("key", $.recurrence),
         optional(
           seq(
             field("operator", $.assignment_operator),
