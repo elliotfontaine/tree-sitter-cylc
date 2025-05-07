@@ -21,8 +21,11 @@ for your target editor.
 
 #### Supported Editors:
 
-- [Zed][zed] — ✅[`zed-cylc`][repo-zed-cylc]
-- [Neovim][neovim], [Helix][helix], [Lapce][lapce], [Pulsar][pulsar] and [GNU Emacs][emacs].
+- **[Helix][helix]** — Built-in support.
+- **[Zed][zed]** — Search for 'Cylc' in the [Zed Extension Gallery][zed-extension-gallery] (original repo at [`elliotfontaine/zed-cylc`][repo-zed-cylc]).
+- **[Neovim][neovim]** — Through the `nvim-treesitter` package. Follow its [Installation Guide][nvim-treesitter-quickstart].
+- **[GNU Emacs][emacs]** — Use this [batch script][emacs-ts-module] and follow the instructions from this [blog post][emacs-ts-getstarted].
+- **[Pulsar][pulsar]** — Coming soon.
 
 ## Python Bindings
 
@@ -95,8 +98,12 @@ This project is licensed under the MIT License. See [LICENSE][license] for detai
 [docs-python-bindings]: https://github.com/tree-sitter/py-tree-sitter?tab=readme-ov-file#usage
 [zed]: https://zed.dev/
 [repo-zed-cylc]: https://github.com/elliotfontaine/zed-cylc
+[zed-extension-gallery]: https://zed.dev/docs/extensions/installing-extensions
 [neovim]: https://neovim.io/
+[nvim-treesitter-quickstart]: https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#quickstart
 [helix]: https://helix-editor.com/
 [lapce]: https://lapce.dev/
 [pulsar]: https://pulsar-edit.dev/
 [emacs]: https://www.gnu.org/software/emacs/
+[emacs-ts-module]: https://github.com/casouri/tree-sitter-module
+[emacs-ts-getstarted]: https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
