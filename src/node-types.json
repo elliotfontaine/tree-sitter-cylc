@@ -744,7 +744,11 @@
         "required": false,
         "types": [
           {
-            "type": "nametag",
+            "type": "jinja2_expression",
+            "named": true
+          },
+          {
+            "type": "key",
             "named": true
           }
         ]

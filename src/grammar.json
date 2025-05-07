@@ -1633,8 +1633,17 @@
                               "type": "FIELD",
                               "name": "selection",
                               "content": {
-                                "type": "SYMBOL",
-                                "name": "nametag"
+                                "type": "CHOICE",
+                                "members": [
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "key"
+                                  },
+                                  {
+                                    "type": "SYMBOL",
+                                    "name": "jinja2_expression"
+                                  }
+                                ]
                               }
                             }
                           ]
