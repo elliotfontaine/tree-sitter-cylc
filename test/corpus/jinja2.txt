@@ -100,11 +100,11 @@ unsupported: jinja2 comment in middle of comment
     (jinja2_comment)))
 
 =============================================================================
-unsupported: jinja2 expression in middle of 
+unsupported: jinja2 expression in middle of a comment
 :skip
 =============================================================================
 
-# This is a jinja2 {# expressing something #} expression
+# This is a jinja2 {{ expressing something }} expression
 
 -----------------------------------------------------------------------------
 
@@ -512,14 +512,14 @@ jinja2 IN graph setting key
             (task_name
               (nametag)))))))))
 
-================================================================================
+=============================================================================
 quote directly after jinja in unquoted string
-================================================================================
+=============================================================================
 
 [scheduling]
 INFLUXDB_V2_URL =  this is unquoted string: "{{N_DATASETS}}".
 
---------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
 
 (workflow_configuration
   (top_section
@@ -531,3 +531,27 @@ INFLUXDB_V2_URL =  this is unquoted string: "{{N_DATASETS}}".
       value: (unquoted_string
         (string_content
          (jinja2_expression))))))
+
+=============================================================================
+jinja2 expression as task parameter value
+=============================================================================
+
+[runtime]
+{# Define a family for each weather station #}
+{% for station in stations %}
+    [[STATION<station={{ station["name"] }}>]]
+
+-----------------------------------------------------------------------------
+
+(workflow_configuration
+  (runtime_section
+    (section_name)
+    (jinja2_comment)
+    (jinja2_statement)
+    (task_section
+      (namespace
+        (task_name
+          (nametag)
+          (task_parameter
+            (nametag)
+            (jinja2_expression)))))))

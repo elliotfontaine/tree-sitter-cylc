@@ -365,7 +365,6 @@ module.exports = grammar({
 
     task_parameter: ($) =>
       seq(
-        // token.immediate("<"),
         token("<"),
         optional(
           choice(
@@ -376,7 +375,10 @@ module.exports = grammar({
             seq(
               field("name", $.nametag),
               optional(
-                seq(token.immediate("="), field("selection", $.nametag)),
+                seq(
+                  token.immediate("="),
+                  field("selection", choice($.key, $.jinja2_expression)),
+                ),
               ),
             ),
           ),
