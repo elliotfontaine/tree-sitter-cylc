@@ -20,6 +20,7 @@ on:
       - bindings/**
       - binding.gyp
       - .github/workflows/ci.yml
+  workflow_dispatch: # Allow manual runs
 
 concurrency:
   group: ${{github.workflow}}-${{github.ref}}
