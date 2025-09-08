@@ -1,6 +1,6 @@
 # tree-sitter-cylc
 
-[![CI](https://img.shields.io/github/actions/workflow/status/elliotfontaine/tree-sitter-cylc/ci.yml?logo=github&label=CI)][ci]
+[![CI](https://img.shields.io/github/actions/workflow/status/elliotfontaine/tree-sitter-cylc/ci.yml?branch=main&logo=github&label=CI)][ci]
 [![pypi](https://img.shields.io/pypi/v/tree-sitter-cylc?logo=pypi&logoColor=ffd242)][pypi]
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)][license]
 
